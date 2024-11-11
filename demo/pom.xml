@@ -25,6 +25,12 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/mil.nga.geopackage/geopackage -->
+    <dependency>
+      <groupId>mil.nga.geopackage</groupId>
+      <artifactId>geopackage</artifactId>
+      <version>6.6.5</version>
+    </dependency>
   </dependencies>
 
   <build>
