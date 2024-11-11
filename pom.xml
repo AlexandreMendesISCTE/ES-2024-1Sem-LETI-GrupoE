@@ -42,6 +42,18 @@
       <artifactId>javafx-controls</artifactId>
       <version>24-ea+15</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>24-ea+15</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/jgraph/jgraph -->
+    <dependency>
+        <groupId>jgraph</groupId>
+        <artifactId>jgraph</artifactId>
+        <version>5.13.0.0</version>
+    </dependency>
   </dependencies>
   
 
