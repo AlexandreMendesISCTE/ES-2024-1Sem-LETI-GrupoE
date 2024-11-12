@@ -98,4 +98,23 @@ public class Property {
 
         return commonCoordinates.size() >= 2;
     }
+
+    // Method to convert geometry to a 2xN matrix
+    public double[][] getCoordinates() {
+        // Remove the "MULTIPOLYGON (((" prefix and ")))" suffix
+        String cleanedGeometry = this.geometry.replace("MULTIPOLYGON (((", "").replace(")))", "");
+
+        // Split the cleaned string into coordinate pairs
+        String[] coordinatePairs = cleanedGeometry.split(", ");
+        int numPairs = coordinatePairs.length;
+        double[][] coordinates = new double[numPairs][2];
+
+        for (int i = 0; i < numPairs; i++) {
+            String[] coords = coordinatePairs[i].split(" ");
+            coordinates[i][0] = Double.parseDouble(coords[0].trim());
+            coordinates[i][1] = Double.parseDouble(coords[1].trim());
+        }
+
+        return coordinates;
+    }
 }

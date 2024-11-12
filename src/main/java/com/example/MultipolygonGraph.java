@@ -1,5 +1,7 @@
 package com.example;
 
+import java.util.List;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.NumberAxis;
@@ -11,48 +13,60 @@ import javafx.scene.shape.Line;
 
 public class MultipolygonGraph extends Application {
 
+    private static int n;
+    private static int m;
+    private static List<Property> properties;
+
+    public static void setN(int n) {
+        MultipolygonGraph.n = n;
+    }
+
+    public static void setM(int m) {
+        MultipolygonGraph.m = m;
+    }
+
+    public static void setProperties(List<Property> properties) {
+        MultipolygonGraph.properties = properties;
+    }
+
     @Override
     public void start(Stage stage) {
         // Coordenadas do multipolígono
-        double[][] coordinates1 = {
-                { 299218.5203999998, 3623637.4791 },
-                { 299218.5033999998, 3623637.4715 },
-                { 299218.04000000004, 3623638.4800000004 },
-                { 299232.7400000002, 3623644.6799999997 },
-                { 299236.6233999999, 3623637.1974 },
-                { 299236.93709999975, 3623636.7885999996 },
-                { 299238.04000000004, 3623633.4800000004 },
-                { 299222.63999999966, 3623627.1799999997 },
-                { 299218.5203999998, 3623637.4791 } // Fechando o loop
-        };
+        double[][] coordinates1 = properties.get(n - 1).getCoordinates();
 
-        double[][] coordinates2 = {
-                { 298724.1991999997, 3623192.6094000004 },
-                { 298724.3200000003, 3623192.619999999 },
-                { 298724.26999999955, 3623185.7200000007 },
-                { 298723.8854, 3623185.681500001 },
-                { 298723.8854, 3623185.6338 },
-                { 298717.2167999996, 3623184.6405999996 },
-                { 298716.2909000004, 3623184.495100001 },
-                { 298716.1699999999, 3623184.5700000003 },
-                { 298711.51999999955, 3623184.17 },
-                { 298709.1414000001, 3623183.7961999997 },
-                { 298708.48000000045, 3623183.3200000003 },
-                { 298705.6799999997, 3623183.2200000007 },
-                { 298704.5800000001, 3623183.3200000003 },
-                { 298703.98000000045, 3623184.119999999 },
-                { 298703.48000000045, 3623190.7200000007 },
-                { 298704.0525000002, 3623190.7905 },
-                { 298704.0488999998, 3623190.8441000003 },
-                { 298705.574, 3623190.9777000006 },
-                { 298709.98000000045, 3623191.5199999996 },
-                { 298710.0937999999, 3623191.3737000003 },
-                { 298724.1991999997, 3623192.6094000004 } // Fechando o loop
-        };
+        double[][] coordinates2 = properties.get(m - 1).getCoordinates();
 
-        // Definindo os eixos
-        NumberAxis xAxis = new NumberAxis(298700, 299300, 100); // Ajuste os valores conforme necessário
-        NumberAxis yAxis = new NumberAxis(3623100, 3623700, 100); // Ajuste os valores conforme necessário
+        // Calculando os valores mínimos e máximos das coordenadas X e Y
+        double minX = Double.MAX_VALUE;
+        double maxX = Double.MIN_VALUE;
+        double minY = Double.MAX_VALUE;
+        double maxY = Double.MIN_VALUE;
+
+        for (double[] coordinate : coordinates1) {
+            if (coordinate[0] < minX)
+                minX = coordinate[0];
+            if (coordinate[0] > maxX)
+                maxX = coordinate[0];
+            if (coordinate[1] < minY)
+                minY = coordinate[1];
+            if (coordinate[1] > maxY)
+                maxY = coordinate[1];
+        }
+
+        for (double[] coordinate : coordinates2) {
+            if (coordinate[0] < minX)
+                minX = coordinate[0];
+            if (coordinate[0] > maxX)
+                maxX = coordinate[0];
+            if (coordinate[1] < minY)
+                minY = coordinate[1];
+            if (coordinate[1] > maxY)
+                maxY = coordinate[1];
+        }
+
+        // Definindo os eixos com base nos valores mínimos e máximos
+        NumberAxis xAxis = new NumberAxis(minX - 10, maxX + 10, (maxX - minX) / 10);
+        NumberAxis yAxis = new NumberAxis(minY - 10, maxY + 10, (maxY - minY) / 10);
         xAxis.setLabel("Coordenada X");
         yAxis.setLabel("Coordenada Y");
 

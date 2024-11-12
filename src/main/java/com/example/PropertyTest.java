@@ -9,6 +9,11 @@ public class PropertyTest {
 
         // Check and print all adjacent properties
         findAndPrintAdjacentProperties(properties);
+
+        // Test if two specific properties are adjacent
+        Property property1 = properties.get(7);
+        Property property2 = properties.get(14);
+        testIfAdjacent(property1, property2);
     }
 
     public static void findAndPrintAdjacentProperties(List<Property> properties) {
@@ -21,6 +26,16 @@ public class PropertyTest {
                             + property2.getObjectId());
                 }
             }
+        }
+    }
+
+    public static void testIfAdjacent(Property property1, Property property2) {
+        if (property1.isAdjacent(property2)) {
+            System.out.println(
+                    "Property " + property1.getObjectId() + " is adjacent to Property " + property2.getObjectId());
+        } else {
+            System.out.println(
+                    "Property " + property1.getObjectId() + " is not adjacent to Property " + property2.getObjectId());
         }
     }
 }
