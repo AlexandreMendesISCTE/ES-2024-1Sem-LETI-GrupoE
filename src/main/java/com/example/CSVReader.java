@@ -7,6 +7,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
@@ -21,28 +22,30 @@ public class CSVReader {
             List<String> headers = csvParser.getHeaderNames();
             System.out.println("Headers: " + headers);
 
+            // List to hold Property objects
+            List<Property> properties = new ArrayList<>();
+
             // Iterate through the records
             for (CSVRecord csvRecord : csvParser) {
-                // Accessing values by the names assigned to each column
-                String objectId = csvRecord.get("OBJECTID");
-                String parId = csvRecord.get("PAR_ID");
-                String parNum = csvRecord.get("PAR_NUM");
-                String shapeLength = csvRecord.get("Shape_Length");
-                String shapeArea = csvRecord.get("Shape_Area");
-                String geometry = csvRecord.get("geometry");
-                String owner = csvRecord.get("OWNER");
+                // Create a new Property object and set its fields
+                Property property = new Property();
+                property.setObjectId(csvRecord.get("OBJECTID"));
+                property.setParId(csvRecord.get("PAR_ID"));
+                property.setParNum(csvRecord.get("PAR_NUM"));
+                property.setShapeLength(csvRecord.get("Shape_Length"));
+                property.setShapeArea(csvRecord.get("Shape_Area"));
+                property.setGeometry(csvRecord.get("geometry"));
+                property.setOwner(csvRecord.get("OWNER"));
 
-                System.out.println("Record No - " + csvRecord.getRecordNumber());
-                System.out.println("---------------");
-                System.out.println("OBJECTID: " + objectId);
-                System.out.println("PAR_ID: " + parId);
-                System.out.println("PAR_NUM: " + parNum);
-                System.out.println("Shape_Length: " + shapeLength);
-                System.out.println("Shape_Area: " + shapeArea);
-                System.out.println("geometry: " + geometry);
-                System.out.println("OWNER: " + owner);
-                System.out.println("---------------\n");
+                // Add the Property object to the list
+                properties.add(property);
             }
+
+            // Print all properties
+            for (Property property : properties) {
+                System.out.println(property);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
