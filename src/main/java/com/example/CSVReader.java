@@ -11,19 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVReader {
-    public static void main(String[] args) {
-        String csvFilePath = "src/main/resources/Madeira-Moodle.csv";
+    public static List<Property> readProperties(String csvFilePath) {
+        List<Property> properties = new ArrayList<>();
 
         try (Reader reader = new FileReader(csvFilePath);
                 CSVParser csvParser = new CSVParser(reader,
                         CSVFormat.DEFAULT.withDelimiter(';').withFirstRecordAsHeader())) {
-
-            // Get the header map
-            List<String> headers = csvParser.getHeaderNames();
-            System.out.println("Headers: " + headers);
-
-            // List to hold Property objects
-            List<Property> properties = new ArrayList<>();
 
             // Iterate through the records
             for (CSVRecord csvRecord : csvParser) {
@@ -41,13 +34,20 @@ public class CSVReader {
                 properties.add(property);
             }
 
-            // Print all properties
-            for (Property property : properties) {
-                System.out.println(property);
-            }
-
         } catch (IOException e) {
             e.printStackTrace();
+        }
+
+        return properties;
+    }
+
+    public static void main(String[] args) {
+        String csvFilePath = "src/main/resources/Madeira-Moodle.csv";
+        List<Property> properties = readProperties(csvFilePath);
+
+        // Print all properties
+        for (Property property : properties) {
+            System.out.println(property);
         }
     }
 }

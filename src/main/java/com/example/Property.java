@@ -1,5 +1,8 @@
 package com.example;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Property {
     private String objectId;
     private String parId;
@@ -77,5 +80,22 @@ public class Property {
                 ", geometry='" + geometry + '\'' +
                 ", owner='" + owner + '\'' +
                 '}';
+    }
+
+    // Method to check if two properties are adjacent
+    public boolean isAdjacent(Property other) {
+        String[] thisCoordinates = this.geometry.split(",");
+        String[] otherCoordinates = other.geometry.split(",");
+
+        Set<String> commonCoordinates = new HashSet<>();
+        for (String coord : thisCoordinates) {
+            for (String otherCoord : otherCoordinates) {
+                if (coord.trim().equals(otherCoord.trim())) {
+                    commonCoordinates.add(coord.trim());
+                }
+            }
+        }
+
+        return commonCoordinates.size() >= 2;
     }
 }
