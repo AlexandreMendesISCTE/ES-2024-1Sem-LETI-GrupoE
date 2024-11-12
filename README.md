@@ -22,7 +22,7 @@ Este projeto faz parte da unidade curricular de Engenharia de Software (2024/202
 
 - Java: Linguagem de programação principal utilizada para o desenvolvimento.
 - Maven: Para gestão de dependências.
-- JUnit: Para criação e execução dos testes do software(ainda não aplicado).
+- JUnit: Para criação e execução dos testes do software.
 - Git/GitHub: Controle de versão local e repositório remoto para colaboração do projeto.
 - Trello: Para a gestão ágil do projeto segundo a abordagem Scrum, rastreando as user stories e integração com GitHub.
 
@@ -34,4 +34,4 @@ Nome: Edgar Cardoso - Número de Estudante: 111340 - GitHub: EdgarCardoso04
 
 ## Problemas Conhecidos e Funcionalidades Incompletas
 
-Ainda falta acabar de desenvolver as restantes funcionalidades para a entrega 2 como também aplicar os testes com o JUnit.
+Ainda falta acabar de desenvolver as restantes funcionalidades para a entrega 2.
