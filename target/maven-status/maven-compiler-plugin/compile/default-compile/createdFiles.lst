@@ -1,5 +1,6 @@
 com\example\CSVReader.class
 com\example\Property.class
-com\example\PropertyTest.class
+com\example\Main.class
 com\example\App.class
 com\example\MultipolygonGraph.class
+com\example\PropertyTest.class

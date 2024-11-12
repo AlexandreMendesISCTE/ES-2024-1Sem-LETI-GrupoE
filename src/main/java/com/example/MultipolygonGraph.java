@@ -31,12 +31,10 @@ public class MultipolygonGraph extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Coordenadas do multipolígono
         double[][] coordinates1 = properties.get(n - 1).getCoordinates();
-
         double[][] coordinates2 = properties.get(m - 1).getCoordinates();
 
-        // Calculando os valores mínimos e máximos das coordenadas X e Y
+        // Calculate the minimum and maximum values of the X and Y coordinates
         double minX = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         double minY = Double.MAX_VALUE;
@@ -64,25 +62,23 @@ public class MultipolygonGraph extends Application {
                 maxY = coordinate[1];
         }
 
-        // Definindo os eixos com base nos valores mínimos e máximos
+        // Define the axes based on the minimum and maximum values
         NumberAxis xAxis = new NumberAxis(minX - 10, maxX + 10, (maxX - minX) / 10);
         NumberAxis yAxis = new NumberAxis(minY - 10, maxY + 10, (maxY - minY) / 10);
         xAxis.setLabel("Coordenada X");
         yAxis.setLabel("Coordenada Y");
 
-        // Criando o gráfico de dispersão
+        // Create the scatter chart(grapf) and set its title
         ScatterChart<Number, Number> scatterChart = new ScatterChart<>(xAxis, yAxis);
         scatterChart.setTitle("Grafo do Multipolygon com Arestas Conectadas");
 
-        // Adicionando pontos e conectando as arestas para o primeiro conjunto de
-        // coordenadas
+        // Add points and connect the edges for the first set of coordinates
         addSeriesAndLines(scatterChart, coordinates1);
 
-        // Adicionando pontos e conectando as arestas para o segundo conjunto de
-        // coordenadas
+        // Add points and connect the edges for the second set of coordinates
         addSeriesAndLines(scatterChart, coordinates2);
 
-        // Configurando a cena e exibindo o gráfico
+        // Set up the scene and display the chart
         Pane pane = new Pane(scatterChart);
         Scene scene = new Scene(pane, 800, 800);
         scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
@@ -97,8 +93,6 @@ public class MultipolygonGraph extends Application {
             double x = coordinates[i][0];
             double y = coordinates[i][1];
             series.getData().add(new XYChart.Data<>(x, y));
-
-            // Conectando os pontos
             if (i > 0) {
                 double prevX = coordinates[i - 1][0];
                 double prevY = coordinates[i - 1][1];
@@ -108,7 +102,6 @@ public class MultipolygonGraph extends Application {
                 scatterChart.getData().add(lineSeries);
             }
         }
-        // Fechando o loop
         double firstX = coordinates[0][0];
         double firstY = coordinates[0][1];
         double lastX = coordinates[coordinates.length - 1][0];
