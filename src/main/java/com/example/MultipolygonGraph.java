@@ -13,9 +13,9 @@ import javafx.scene.shape.Line;
 
 public class MultipolygonGraph extends Application {
 
-    private static int n;
-    private static int m;
-    private static List<Property> properties;
+    public static int n;
+    public static int m;
+    public static List<Property> properties;
 
     public static void setN(int n) {
         MultipolygonGraph.n = n;

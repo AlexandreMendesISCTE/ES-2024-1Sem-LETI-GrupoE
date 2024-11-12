@@ -11,6 +11,7 @@ public class Property {
     private String shapeArea;
     private String geometry;
     private String owner;
+    private double[][] coordinates;
 
     // Getters and Setters
     public String getObjectId() {
@@ -67,6 +68,14 @@ public class Property {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public double[][] convertGeometryToCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(double[][] coordinates) {
+        this.coordinates = coordinates;
     }
 
     @Override
