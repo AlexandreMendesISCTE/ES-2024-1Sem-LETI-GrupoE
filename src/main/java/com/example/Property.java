@@ -1,7 +1,10 @@
 package com.example;
 
+import java.util.List;
+
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.WKTReader;
 
 // Class representing a Property
@@ -132,12 +135,28 @@ public class Property {
             Geometry thisGeometry = reader.read(this.geometry);
             Geometry otherGeometry = reader.read(other.getGeometry());
 
-            // Check if the two geometries touch each other
-            return thisGeometry.touches(otherGeometry);
+            // Check if the two geometries touch each other, intersect, or one contains the other
+            return thisGeometry.touches(otherGeometry) || thisGeometry.intersects(otherGeometry) || thisGeometry.contains(otherGeometry) || otherGeometry.contains(thisGeometry);
         } catch (Exception e) {
             System.err.println("Error reading geometries: " + e.getMessage());
             e.printStackTrace();
             return false;
+        }
+    }
+
+    // Method to calculate the centroid (midpoint) of the property's geometry
+    public Point getCentroid() {
+        try {
+            GeometryFactory geometryFactory = new GeometryFactory();
+            WKTReader reader = new WKTReader(geometryFactory);
+            Geometry thisGeometry = reader.read(this.geometry);
+
+            // Calculate and return the centroid
+            return thisGeometry.getCentroid();
+        } catch (Exception e) {
+            System.err.println("Error reading geometry for centroid calculation: " + e.getMessage());
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -156,5 +175,22 @@ public class Property {
                 ", municipio='" + municipio + '\'' +
                 ", ilha='" + ilha + '\'' +
                 '}';
+    }
+
+    // Main method for testing the Property class
+    public static void main(String[] args) {
+        List<Property> properties = CsvToPropertyReader.Exercise_1();
+        if (properties.size() > 120) {
+            properties = properties.subList(0, 120);
+        }
+        for (int i = 0; i < properties.size(); i++) {
+            for (int j = i + 1; j < properties.size(); j++) {
+                Property property1 = properties.get(i);
+                Property property2 = properties.get(j);
+                if (property1.isAdjacentTo(property2)) {
+                    System.out.println(property1.getObjectId() + " is adjacent to " + property2.getObjectId());
+                }
+            }
+        }
     }
 }

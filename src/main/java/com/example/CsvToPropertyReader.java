@@ -58,7 +58,7 @@ public class CsvToPropertyReader {
             System.out.println("No properties found in the CSV file.");
         } else {
             for (Property property : properties) {
-                System.out.println(property);
+                //System.out.println(property);
             }
         }
         return properties;
