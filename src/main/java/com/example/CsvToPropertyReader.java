@@ -112,13 +112,28 @@ public class CsvToPropertyReader {
     }
 
     /**
+     * Filters the list of properties to only include those with a specific "Ilha".
+     *
+     * @param properties The list of Property objects to be filtered.
+     * @param ilha The name of the "Ilha" to filter by.
+     * @return A filtered list of Property objects with the specified "Ilha".
+     */
+    public static List<Property> filterPropertiesByIlha(List<Property> properties, String ilha) {
+        // Use a stream to filter properties based on the specified "Ilha"
+        return properties.stream()
+                .filter(property -> ilha.equalsIgnoreCase(property.getIlha())) // Check if the property's "Ilha" matches the specified one (case insensitive)
+                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+    }
+
+    /**
      * Main method to execute the Exercise_1 function and verify the output.
      *
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
         Exercise_1(); // Call the Exercise_1 method to read properties from the CSV file
-        filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia" and print the results
-        filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio" and print the results
+        filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia"
+        filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio"
+        filterPropertiesByIlha(Exercise_1(), "Ilha da Madeira (Madeira)"); // Filter properties by "Ilha"
     }
 }
