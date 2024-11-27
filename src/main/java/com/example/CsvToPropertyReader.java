@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -83,11 +84,26 @@ public class CsvToPropertyReader {
     }
 
     /**
+     * Filters the list of properties to only include those with a specific "Freguesia".
+     *
+     * @param properties The list of Property objects to be filtered.
+     * @param freguesia The name of the "Freguesia" to filter by.
+     * @return A filtered list of Property objects with the specified "Freguesia".
+     */
+    public static List<Property> filterPropertiesByFreguesiaArcoDaCalheta(List<Property> properties, String freguesia) {
+        // Use a stream to filter properties based on the specified "Freguesia"
+        return properties.stream()
+                .filter(property -> freguesia.equalsIgnoreCase(property.getFreguesia())) // Check if the property's "Freguesia" matches the specified one (case insensitive)
+                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+    }
+
+    /**
      * Main method to execute the Exercise_1 function and verify the output.
      *
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
         Exercise_1(); // Call the Exercise_1 method to read properties from the CSV file
+        filterPropertiesByFreguesiaArcoDaCalheta(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia" and print the results
     }
 }
