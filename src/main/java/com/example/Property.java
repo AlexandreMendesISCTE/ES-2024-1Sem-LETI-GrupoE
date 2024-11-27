@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.List;
-
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.io.WKTReader;
@@ -158,19 +156,5 @@ public class Property {
                 ", municipio='" + municipio + '\'' +
                 ", ilha='" + ilha + '\'' +
                 '}';
-    }
-
-    // Main method to check adjacency between properties
-    public static void main(String[] args) {
-        List<Property> properties = CsvToPropertyReader.Exercise_1();
-        // Iterate over the list of properties and check if they are adjacent
-        for (int i = 0; i < properties.size(); i++) {
-            for (int j = i + 1; j < properties.size(); j++) {
-                Property property1 = properties.get(i);
-                Property property2 = properties.get(j);
-                boolean adjacent = property1.isAdjacentTo(property2);
-                System.out.println("Are properties " + property1.getObjectId() + " and " + property2.getObjectId() + " adjacent? " + adjacent);
-            }
-        }
     }
 }

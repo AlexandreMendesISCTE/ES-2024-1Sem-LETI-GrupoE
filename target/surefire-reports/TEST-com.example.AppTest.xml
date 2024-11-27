@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.AppTest" time="0.027" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.example.AppTest" time="0.026" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="23"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\test-classes;C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\classes;C:\Users\alexa\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\alexa\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\alexa\.m2\repository\org\apache\commons\commons-csv\1.12.0\commons-csv-1.12.0.jar;C:\Users\alexa\.m2\repository\commons-io\commons-io\2.17.0\commons-io-2.17.0.jar;C:\Users\alexa\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\alexa\.m2\repository\org\locationtech\jts\jts-core\1.20.0\jts-core-1.20.0.jar;"/>
+    <property name="java.class.path" value="C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\test-classes;C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\classes;C:\Users\alexa\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\alexa\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\alexa\.m2\repository\org\apache\commons\commons-csv\1.12.0\commons-csv-1.12.0.jar;C:\Users\alexa\.m2\repository\commons-io\commons-io\2.17.0\commons-io-2.17.0.jar;C:\Users\alexa\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\alexa\.m2\repository\org\locationtech\jts\jts-core\1.20.0\jts-core-1.20.0.jar;C:\Users\alexa\.m2\repository\org\jgrapht\jgrapht-core\1.5.2\jgrapht-core-1.5.2.jar;C:\Users\alexa\.m2\repository\org\jheaps\jheaps\0.14\jheaps-0.14.jar;C:\Users\alexa\.m2\repository\org\apfloat\apfloat\1.10.1\apfloat-1.10.1.jar;"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,9 +15,9 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="PT"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-23\bin"/>
-    <property name="sun.java.command" value="C:\Users\alexa\AppData\Local\Temp\surefire10709533291138743185\surefirebooter14867786737971857133.jar C:\Users\alexa\AppData\Local\Temp\surefire10709533291138743185 2024-11-27T00-24-26_600-jvmRun1 surefire7464655241405659971tmp surefire_017459935778419932945tmp"/>
+    <property name="sun.java.command" value="C:\Users\alexa\AppData\Local\Temp\surefire15567093484240411530\surefirebooter3657454678699828724.jar C:\Users\alexa\AppData\Local\Temp\surefire15567093484240411530 2024-11-27T00-40-55_304-jvmRun1 surefire16573099490232338425tmp surefire_07966633780667461351tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\test-classes;C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\classes;C:\Users\alexa\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\alexa\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\alexa\.m2\repository\org\apache\commons\commons-csv\1.12.0\commons-csv-1.12.0.jar;C:\Users\alexa\.m2\repository\commons-io\commons-io\2.17.0\commons-io-2.17.0.jar;C:\Users\alexa\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\alexa\.m2\repository\org\locationtech\jts\jts-core\1.20.0\jts-core-1.20.0.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\test-classes;C:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\target\classes;C:\Users\alexa\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\alexa\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\alexa\.m2\repository\org\apache\commons\commons-csv\1.12.0\commons-csv-1.12.0.jar;C:\Users\alexa\.m2\repository\commons-io\commons-io\2.17.0\commons-io-2.17.0.jar;C:\Users\alexa\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\alexa\.m2\repository\org\locationtech\jts\jts-core\1.20.0\jts-core-1.20.0.jar;C:\Users\alexa\.m2\repository\org\jgrapht\jgrapht-core\1.5.2\jgrapht-core-1.5.2.jar;C:\Users\alexa\.m2\repository\org\jheaps\jheaps\0.14\jheaps-0.14.jar;C:\Users\alexa\.m2\repository\org\apfloat\apfloat\1.10.1\apfloat-1.10.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\alexa"/>
     <property name="user.language" value="pt"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\alexa\AppData\Local\Temp\surefire10709533291138743185\surefirebooter14867786737971857133.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\alexa\AppData\Local\Temp\surefire15567093484240411530\surefirebooter3657454678699828724.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="23.0.1+11-39"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="67.0"/>
   </properties>
-  <testcase name="shouldAnswerWithTrue" classname="com.example.AppTest" time="0.003"/>
+  <testcase name="shouldAnswerWithTrue" classname="com.example.AppTest" time="0.002"/>
 </testsuite>
