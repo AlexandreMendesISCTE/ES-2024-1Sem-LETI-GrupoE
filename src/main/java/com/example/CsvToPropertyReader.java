@@ -90,10 +90,24 @@ public class CsvToPropertyReader {
      * @param freguesia The name of the "Freguesia" to filter by.
      * @return A filtered list of Property objects with the specified "Freguesia".
      */
-    public static List<Property> filterPropertiesByFreguesiaArcoDaCalheta(List<Property> properties, String freguesia) {
+    public static List<Property> filterPropertiesByFreguesia(List<Property> properties, String freguesia) {
         // Use a stream to filter properties based on the specified "Freguesia"
         return properties.stream()
                 .filter(property -> freguesia.equalsIgnoreCase(property.getFreguesia())) // Check if the property's "Freguesia" matches the specified one (case insensitive)
+                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+    }
+
+    /**
+     * Filters the list of properties to only include those with a specific "Municipio".
+     *
+     * @param properties The list of Property objects to be filtered.
+     * @param municipio The name of the "Municipio" to filter by.
+     * @return A filtered list of Property objects with the specified "Municipio".
+     */
+    public static List<Property> filterPropertiesByMunicipio(List<Property> properties, String municipio) {
+        // Use a stream to filter properties based on the specified "Municipio"
+        return properties.stream()
+                .filter(property -> municipio.equalsIgnoreCase(property.getMunicipio())) // Check if the property's "Municipio" matches the specified one (case insensitive)
                 .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
     }
 
@@ -104,6 +118,7 @@ public class CsvToPropertyReader {
      */
     public static void main(String[] args) {
         Exercise_1(); // Call the Exercise_1 method to read properties from the CSV file
-        filterPropertiesByFreguesiaArcoDaCalheta(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia" and print the results
+        filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia" and print the results
+        filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio" and print the results
     }
 }
