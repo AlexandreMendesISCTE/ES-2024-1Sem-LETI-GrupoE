@@ -49,7 +49,7 @@ public class CsvToPropertyReader {
 
 
     // Exercise_1 function
-    public static void Exercise_1() {
+    public static List<Property> Exercise_1() {
         File csvFile = new File("src/main/resources/Madeira-Moodle-1.1.csv");
         List<Property> properties = readPropertiesFromCsv(csvFile);
         
@@ -61,6 +61,7 @@ public class CsvToPropertyReader {
                 System.out.println(property);
             }
         }
+        return properties;
     }
 
     public static void main(String[] args) {
