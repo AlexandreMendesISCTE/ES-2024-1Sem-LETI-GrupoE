@@ -91,11 +91,15 @@ public class CsvToPropertyReader {
      * @return A filtered list of Property objects with the specified "Freguesia".
      */
     public static List<Property> filterPropertiesByFreguesia(List<Property> properties, String freguesia) {
-        // Use a stream to filter properties based on the specified "Freguesia"
-        return properties.stream()
-                .filter(property -> freguesia.equalsIgnoreCase(property.getFreguesia())) // Check if the property's "Freguesia" matches the specified one (case insensitive)
-                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+        List<Property> filteredProperties = properties.stream()
+                .filter(property -> freguesia.equalsIgnoreCase(property.getFreguesia()))
+                .collect(Collectors.toList());
+        if (filteredProperties.isEmpty()) {
+            throw new IllegalArgumentException("No properties found for Freguesia: " + freguesia);
+        }
+        return filteredProperties;
     }
+    
 
     /**
      * Filters the list of properties to only include those with a specific "Municipio".
@@ -105,11 +109,15 @@ public class CsvToPropertyReader {
      * @return A filtered list of Property objects with the specified "Municipio".
      */
     public static List<Property> filterPropertiesByMunicipio(List<Property> properties, String municipio) {
-        // Use a stream to filter properties based on the specified "Municipio"
-        return properties.stream()
-                .filter(property -> municipio.equalsIgnoreCase(property.getMunicipio())) // Check if the property's "Municipio" matches the specified one (case insensitive)
-                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+        List<Property> filteredProperties = properties.stream()
+                .filter(property -> municipio.equalsIgnoreCase(property.getMunicipio()))
+                .collect(Collectors.toList());
+        if (filteredProperties.isEmpty()) {
+            throw new IllegalArgumentException("No properties found for Municipio: " + municipio);
+        }
+        return filteredProperties;
     }
+    
 
     /**
      * Filters the list of properties to only include those with a specific "Ilha".
@@ -119,11 +127,15 @@ public class CsvToPropertyReader {
      * @return A filtered list of Property objects with the specified "Ilha".
      */
     public static List<Property> filterPropertiesByIlha(List<Property> properties, String ilha) {
-        // Use a stream to filter properties based on the specified "Ilha"
-        return properties.stream()
-                .filter(property -> ilha.equalsIgnoreCase(property.getIlha())) // Check if the property's "Ilha" matches the specified one (case insensitive)
-                .collect(Collectors.toList()); // Collect the filtered properties into a list and return it
+        List<Property> filteredProperties = properties.stream()
+                .filter(property -> ilha.equalsIgnoreCase(property.getIlha()))
+                .collect(Collectors.toList());
+        if (filteredProperties.isEmpty()) {
+            throw new IllegalArgumentException("No properties found for Ilha: " + ilha);
+        }
+        return filteredProperties;
     }
+    
 
     /**
      * Main method to execute the Exercise_1 function and verify the output.

@@ -277,6 +277,88 @@ public class Property {
     }
 
     /**
+     * Method to calculate the average area of a list of properties.
+     *
+     * @param properties The list of Property objects.
+     * @return The average area as a double.
+     * @throws IllegalArgumentException if the property list is null or empty, or if no valid areas are found.
+     */
+    public static double calculateAverageArea(List<Property> properties) {
+        if (properties == null || properties.isEmpty()) {
+            throw new IllegalArgumentException("Property list cannot be null or empty");
+        }
+
+        double totalArea = 0.0;
+        int count = 0;
+
+        for (Property property : properties) {
+            try {
+                double area = Double.parseDouble(property.getShapeArea());
+                totalArea += area;
+                count++;
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid area value for property " + property.getObjectId() + ": " + property.getShapeArea());
+            }
+        }
+
+        if (count == 0) {
+            throw new IllegalArgumentException("No valid property areas found");
+        }
+
+        return totalArea / count;
+    }
+
+
+    /**
+     * Exercise_3 function calculates the average area of the properties filtered by "Freguesia", "Municipio", and "Ilha".
+     *
+     * @param properties The list of Property objects to be filtered and averaged.
+     * @param freguesia The name of the "Freguesia" to filter by. If null or empty, a default value will be used.
+     * @param municipio The name of the "Municipio" to filter by. If null or empty, a default value will be used.
+     * @param ilha The name of the "Ilha" to filter by. If null or empty, a default value will be used.
+     */
+    public static void Exercise_3(List<Property> properties, String freguesia, String municipio, String ilha) {
+        // If any of the input parameters are null or empty, set default values.
+        if (freguesia == null || freguesia.isEmpty() || municipio == null || municipio.isEmpty() || ilha == null || ilha.isEmpty()) {
+            freguesia = "Arco da Calheta";
+            municipio = "Calheta";
+            ilha = "Ilha da Madeira (Madeira)";
+        }
+
+        // Filter the properties by the specified "Freguesia".
+        List<Property> filteredByFreguesia = CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesia);
+        // Filter the properties by the specified "Municipio".
+        List<Property> filteredByMunicipio = CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipio);
+        // Filter the properties by the specified "Ilha".
+        List<Property> filteredByIlha = CsvToPropertyReader.filterPropertiesByIlha(properties, ilha);
+
+        try {
+            // Calculate the average area of properties in the specified "Freguesia".
+            double averageAreaFreguesia = calculateAverageArea(filteredByFreguesia);
+            System.out.println("Average area of properties in Freguesia '" + freguesia + "': " + averageAreaFreguesia);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            // Calculate the average area of properties in the specified "Municipio".
+            double averageAreaMunicipio = calculateAverageArea(filteredByMunicipio);
+            System.out.println("Average area of properties in Municipio '" + municipio + "': " + averageAreaMunicipio);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+
+        try {
+            // Calculate the average area of properties in the specified "Ilha".
+            double averageAreaIlha = calculateAverageArea(filteredByIlha);
+            System.out.println("Average area of properties in Ilha '" + ilha + "': " + averageAreaIlha);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+
+    /**
      * Overridden toString method for representing the property details as a String.
      *
      * @return A string representation of the property details.
@@ -304,6 +386,8 @@ public class Property {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
+        // isAdjacentTo method is used in the following code
+        /* 
         List<Property> properties = CsvToPropertyReader.Exercise_1();
         if (properties.size() > 120) {
             properties = properties.subList(0, 120); // Limit the number of properties to 120
@@ -317,5 +401,9 @@ public class Property {
                 }
             }
         }
+        */
+
+        // Exercise_3 method is used in the following code
+        Exercise_3(CsvToPropertyReader.Exercise_1(), "Arco da Calheta", "Calheta", "Ilha da Madeira (Madeira)");
     }
 }
