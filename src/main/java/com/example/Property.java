@@ -1,11 +1,15 @@
 package com.example;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.WKTReader;
+import org.locationtech.jts.io.WKTWriter;
 
 /**
  * The Property class represents a property with various attributes such as object ID, parcel ID,
@@ -257,6 +261,26 @@ public class Property {
     }
 
     /**
+     * Method to show all adjacencies between properties.
+     */
+    public static void showAllAdjacencies(List<Property> properties, int limit) {
+        if (properties == null || limit <= 0) {
+            properties = CsvToPropertyReader.Exercise_1();
+            limit = 120;
+        }
+        properties = properties.subList(0, limit); // Limit the number of properties to 120
+        for (int i = 0; i < properties.size(); i++) {
+            for (int j = i + 1; j < properties.size(); j++) {
+                Property property1 = properties.get(i);
+                Property property2 = properties.get(j);
+                if (property1.isAdjacentTo(property2)) {
+                    System.out.println(property1.getObjectId() + " is adjacent to " + property2.getObjectId());
+                }
+            }
+        }
+    }
+
+    /**
      * Method to calculate the centroid (midpoint) of the property's geometry.
      *
      * @return The centroid of the property's geometry as a Point.
@@ -310,53 +334,253 @@ public class Property {
 
 
     /**
-     * Exercise_3 function calculates the average area of the properties filtered by "Freguesia", "Municipio", and "Ilha".
+     * Exercise_3 function calculates the average area of the properties filtered by "Freguesia", "Municipio", "Ilha", or all.
      *
      * @param properties The list of Property objects to be filtered and averaged.
-     * @param freguesia The name of the "Freguesia" to filter by. If null or empty, a default value will be used.
-     * @param municipio The name of the "Municipio" to filter by. If null or empty, a default value will be used.
-     * @param ilha The name of the "Ilha" to filter by. If null or empty, a default value will be used.
+     * @param filterType The type of filter to apply: "freguesia", "municipio", "ilha", or "all".
+     * @param location The name of the location to filter by, or null if filterType is "all".
      */
-    public static void Exercise_3(List<Property> properties, String freguesia, String municipio, String ilha) {
-        // If any of the input parameters are null or empty, set default values.
-        if (freguesia == null || freguesia.isEmpty() || municipio == null || municipio.isEmpty() || ilha == null || ilha.isEmpty()) {
-            freguesia = "Arco da Calheta";
-            municipio = "Calheta";
-            ilha = "Ilha da Madeira (Madeira)";
+    public static void Exercise_3(List<Property> properties, String filterType, String location) {
+        List<Property> filteredProperties;
+
+        switch (filterType.toLowerCase()) {
+            case "freguesia":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(properties, location);
+                break;
+            case "municipio":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByMunicipio(properties, location);
+                break;
+            case "ilha":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByIlha(properties, location);
+                break;
+            case "all":
+                System.out.println("Calculating average area for default values of Freguesia, Municipio, and Ilha...");
+                // Default values
+                String defaultFreguesia = "Arco da Calheta";
+                String defaultMunicipio = "Calheta";
+                String defaultIlha = "Ilha da Madeira (Madeira)";
+
+                try {
+                    // Calculate the average area for default "Freguesia"
+                    filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(properties, defaultFreguesia);
+                    double averageAreaFreguesia = calculateAverageArea(filteredProperties);
+                    System.out.println("Average area of properties in Freguesia '" + defaultFreguesia + "': " + averageAreaFreguesia);
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage());
+                }
+
+                try {
+                    // Calculate the average area for default "Municipio"
+                    filteredProperties = CsvToPropertyReader.filterPropertiesByMunicipio(properties, defaultMunicipio);
+                    double averageAreaMunicipio = calculateAverageArea(filteredProperties);
+                    System.out.println("Average area of properties in Municipio '" + defaultMunicipio + "': " + averageAreaMunicipio);
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage());
+                }
+
+                try {
+                    // Calculate the average area for default "Ilha"
+                    filteredProperties = CsvToPropertyReader.filterPropertiesByIlha(properties, defaultIlha);
+                    double averageAreaIlha = calculateAverageArea(filteredProperties);
+                    System.out.println("Average area of properties in Ilha '" + defaultIlha + "': " + averageAreaIlha);
+                } catch (IllegalArgumentException e) {
+                    System.err.println(e.getMessage());
+                }
+                return;
+            default:
+                throw new IllegalArgumentException("Invalid filter type: " + filterType);
         }
 
-        // Filter the properties by the specified "Freguesia".
-        List<Property> filteredByFreguesia = CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesia);
-        // Filter the properties by the specified "Municipio".
-        List<Property> filteredByMunicipio = CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipio);
-        // Filter the properties by the specified "Ilha".
-        List<Property> filteredByIlha = CsvToPropertyReader.filterPropertiesByIlha(properties, ilha);
-
         try {
-            // Calculate the average area of properties in the specified "Freguesia".
-            double averageAreaFreguesia = calculateAverageArea(filteredByFreguesia);
-            System.out.println("Average area of properties in Freguesia '" + freguesia + "': " + averageAreaFreguesia);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-
-        try {
-            // Calculate the average area of properties in the specified "Municipio".
-            double averageAreaMunicipio = calculateAverageArea(filteredByMunicipio);
-            System.out.println("Average area of properties in Municipio '" + municipio + "': " + averageAreaMunicipio);
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-
-        try {
-            // Calculate the average area of properties in the specified "Ilha".
-            double averageAreaIlha = calculateAverageArea(filteredByIlha);
-            System.out.println("Average area of properties in Ilha '" + ilha + "': " + averageAreaIlha);
+            // Calculate the average area of the filtered properties.
+            double averageArea = calculateAverageArea(filteredProperties);
+            System.out.println("Average area of properties for " + filterType + " '" + (location != null ? location : "all") + "': " + averageArea);
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }
 
+
+    /**
+     * Method to merge properties by adjacency and ownership.
+     *
+     * @param properties The list of Property objects to be merged.
+     * @return A new list of Property objects after merging adjacent properties with the same owner.
+     */
+    public static List<Property> mergePropertiesByAdjacencyAndOwner(List<Property> properties) {
+        List<Property> mergedProperties = new ArrayList<>();
+        Set<String> mergedObjectIds = new HashSet<>();
+        GeometryFactory geometryFactory = new GeometryFactory();
+        WKTReader reader = new WKTReader(geometryFactory);
+        WKTWriter writer = new WKTWriter();
+
+        for (Property property : properties) {
+            // Skip properties that have already been merged
+            if (mergedObjectIds.contains(property.getObjectId())) {
+                continue;
+            }
+
+            Property currentProperty = property;
+            boolean merged = false;
+
+            for (Property otherProperty : properties) {
+                // Skip if the properties are the same or if the other property has already been merged
+                if (currentProperty.equals(otherProperty) || mergedObjectIds.contains(otherProperty.getObjectId())) {
+                    continue;
+                }
+
+                // Check if properties are adjacent and have the same owner
+                if (currentProperty.isAdjacentTo(otherProperty) && currentProperty.getOwner().equalsIgnoreCase(otherProperty.getOwner())) {
+                    try {
+                        // Read the geometries of both properties
+                        Geometry geometry1 = reader.read(currentProperty.getGeometry());
+                        Geometry geometry2 = reader.read(otherProperty.getGeometry());
+
+                        // Merge the geometries
+                        Geometry mergedGeometry = geometry1.union(geometry2);
+
+                        // Convert the merged geometry back to WKT format
+                        String mergedGeometryWKT = writer.write(mergedGeometry);
+
+                        // Create a new Property with merged information
+                        String mergedShapeArea = String.valueOf(mergedGeometry.getArea());
+                        currentProperty = new Property(
+                                currentProperty.getObjectId() + "_" + otherProperty.getObjectId(), // New ID combining both IDs
+                                currentProperty.getParId(), // Parcel ID remains the same
+                                currentProperty.getParNum(), // Parcel number remains the same
+                                String.valueOf(mergedGeometry.getLength()), // Updated length
+                                mergedShapeArea, // Updated area
+                                mergedGeometryWKT, // Merged geometry in WKT format
+                                currentProperty.getOwner(), // Owner remains the same
+                                currentProperty.getFreguesia(), // Freguesia remains the same
+                                currentProperty.getMunicipio(), // Municipio remains the same
+                                currentProperty.getIlha() // Ilha remains the same
+                        );
+
+                        // Mark the other property as merged
+                        mergedObjectIds.add(otherProperty.getObjectId());
+                        merged = true;
+                    } catch (Exception e) {
+                        System.err.println("Error merging properties: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            // Add the merged or original property to the new list
+            mergedProperties.add(currentProperty);
+            mergedObjectIds.add(currentProperty.getObjectId());
+        }
+
+        return mergedProperties;
+    }
+
+    /**
+     * Method to count adjacent properties with the same owner.
+     *
+     * @param freguesia The name of the "Freguesia" to filter by.
+     */
+    public static void countAdjacentPropertiesWithSameOwner(String freguesia) {
+        List<Property> properties = CsvToPropertyReader.filterPropertiesByFreguesia(CsvToPropertyReader.Exercise_1(), freguesia);
+        int count = 0;
+        for (int i = 0; i < properties.size(); i++) {
+            for (int j = i + 1; j < properties.size(); j++) {
+                Property property1 = properties.get(i);
+                Property property2 = properties.get(j);
+                if (property1.isAdjacentTo(property2)) {
+                    System.out.println(property1.getObjectId() + " is adjacent to " + property2.getObjectId());
+                    if (property1.getOwner().equalsIgnoreCase(property2.getOwner())) {
+                        System.out.println("The owners of the properties are the same");
+                        count++;
+                    }
+                }
+            }
+        }
+        System.err.println("Number of adjacent properties with the same owner: " + count);
+    }
+
+    /**
+     * Method to test merging of properties with the same owner and print results.
+     */
+    public static void testMergeWithSameOwner(String freguesia) {
+        // Count adjacent properties with the same owner
+        countAdjacentPropertiesWithSameOwner(freguesia);
+
+        // Print the number of properties in the filtered list
+        List<Property> filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(CsvToPropertyReader.Exercise_1(), freguesia);
+        System.out.println("Number of properties in '" + freguesia + "': " + filteredProperties.size());
+
+        // Merge properties by adjacency and owner
+        List<Property> mergedProperties = mergePropertiesByAdjacencyAndOwner(filteredProperties);
+
+        // Print the number of properties after merging
+        System.out.println("Number of properties after merging: " + mergedProperties.size());
+    }
+
+    /**
+     * Exercise_4 function filters properties by "Freguesia", "Municipio", "Ilha", or all, then merges adjacent properties with the same owner.
+     *
+     * @param properties The list of Property objects to be filtered and merged.
+     * @param filterType The type of filter to apply: "freguesia", "municipio", "ilha", or "all".
+     * @param location The name of the location to filter by, or null if filterType is "all".
+     */
+    public static void Exercise_4(List<Property> properties, String filterType, String location) {
+        List<Property> filteredProperties;
+
+        switch (filterType.toLowerCase()) {
+            case "freguesia":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(properties, location);
+                break;
+            case "municipio":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByMunicipio(properties, location);
+                break;
+            case "ilha":
+                filteredProperties = CsvToPropertyReader.filterPropertiesByIlha(properties, location);
+                break;
+            case "all":
+                System.out.println("Merging properties for default values of Freguesia, Municipio, and Ilha...");
+                // Default values
+                String defaultFreguesia = "Arco da Calheta";
+                String defaultMunicipio = "Calheta";
+                String defaultIlha = "Ilha da Madeira (Madeira)";
+
+                // Merge properties for default "Freguesia"
+                filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(properties, defaultFreguesia);
+                List<Property> mergedFreguesia = mergePropertiesByAdjacencyAndOwner(filteredProperties);
+                System.out.println("Number of properties after merging in Freguesia '" + defaultFreguesia + "': " + mergedFreguesia.size());
+                double averageAreaFreguesia = calculateAverageArea(mergedFreguesia);
+                System.out.println("Average area of merged properties in Freguesia '" + defaultFreguesia + "': " + averageAreaFreguesia);
+
+                // Merge properties for default "Municipio"
+                filteredProperties = CsvToPropertyReader.filterPropertiesByMunicipio(properties, defaultMunicipio);
+                List<Property> mergedMunicipio = mergePropertiesByAdjacencyAndOwner(filteredProperties);
+                System.out.println("Number of properties after merging in Municipio '" + defaultMunicipio + "': " + mergedMunicipio.size());
+                double averageAreaMunicipio = calculateAverageArea(mergedMunicipio);
+                System.out.println("Average area of merged properties in Municipio '" + defaultMunicipio + "': " + averageAreaMunicipio);
+
+                // Merge properties for default "Ilha"
+                filteredProperties = CsvToPropertyReader.filterPropertiesByIlha(properties, defaultIlha);
+                List<Property> mergedIlha = mergePropertiesByAdjacencyAndOwner(filteredProperties);
+                System.out.println("Number of properties after merging in Ilha '" + defaultIlha + "': " + mergedIlha.size());
+                double averageAreaIlha = calculateAverageArea(mergedIlha);
+                System.out.println("Average area of merged properties in Ilha '" + defaultIlha + "': " + averageAreaIlha);
+                return;
+            default:
+                throw new IllegalArgumentException("Invalid filter type: " + filterType);
+        }
+
+        // Merge adjacent properties with the same owner in the filtered list
+        List<Property> mergedProperties = mergePropertiesByAdjacencyAndOwner(filteredProperties);
+        System.out.println("Number of properties after merging for " + filterType + " '" + (location != null ? location : "all") + "': " + mergedProperties.size());
+
+        // Calculate the average area of the merged properties
+        try {
+            double averageArea = calculateAverageArea(mergedProperties);
+            System.out.println("Average area of merged properties for " + filterType + " '" + (location != null ? location : "all") + "': " + averageArea);
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
     /**
      * Overridden toString method for representing the property details as a String.
@@ -386,24 +610,22 @@ public class Property {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
-        // isAdjacentTo method is used in the following code
-        /* 
-        List<Property> properties = CsvToPropertyReader.Exercise_1();
-        if (properties.size() > 120) {
-            properties = properties.subList(0, 120); // Limit the number of properties to 120
-        }
-        for (int i = 0; i < properties.size(); i++) {
-            for (int j = i + 1; j < properties.size(); j++) {
-                Property property1 = properties.get(i);
-                Property property2 = properties.get(j);
-                if (property1.isAdjacentTo(property2)) {
-                    System.out.println(property1.getObjectId() + " is adjacent to " + property2.getObjectId());
-                }
-            }
-        }
-        */
+        // Show all adjacencies between properties
+        showAllAdjacencies(CsvToPropertyReader.Exercise_1(), 120);
 
         // Exercise_3 method is used in the following code
-        Exercise_3(CsvToPropertyReader.Exercise_1(), "Arco da Calheta", "Calheta", "Ilha da Madeira (Madeira)");
+        Exercise_3(CsvToPropertyReader.Exercise_1(), "freguesia", "Arco da Calheta");
+        Exercise_3(CsvToPropertyReader.Exercise_1(), "municipio", "Calheta");
+        Exercise_3(CsvToPropertyReader.Exercise_1(), "ilha", "Ilha da Madeira (Madeira)");
+        Exercise_3(CsvToPropertyReader.Exercise_1(), "all", null);
+        
+        // Count adjacent properties with the same owner
+        testMergeWithSameOwner("Arco da Calheta");
+
+        // Exercise_4 method is used in the following code
+        Exercise_4(CsvToPropertyReader.Exercise_1(), "freguesia", "Arco da Calheta");
+        Exercise_4(CsvToPropertyReader.Exercise_1(), "municipio", "Calheta");
+        Exercise_4(CsvToPropertyReader.Exercise_1(), "ilha", "Ilha da Madeira (Madeira)");
+        Exercise_4(CsvToPropertyReader.Exercise_1(), "all", null);
     }
 }
