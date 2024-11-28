@@ -52,6 +52,45 @@ public class PropertyGraph {
     }
 
     /**
+     * Exercise_5 - Loads properties, creates a graph of owners, and visualizes it.
+     * This method represents the relationship between owners as a graph, where nodes represent owners
+     * and edges represent adjacency relations between owners who have contiguous properties.
+     */
+    public static void Exercise_5() {
+        // Load properties from CSV file
+        List<Property> properties = CsvToPropertyReader.Exercise_1();
+        if (properties.size() > 120) {
+            properties = properties.subList(0, 120); // Limit the number of properties to 120
+        }
+
+        // Create a graph with owners as vertices and adjacency relations as edges
+        Graph<String, DefaultEdge> ownerGraph = new SimpleGraph<>(DefaultEdge.class);
+
+        // Iterate over properties to add owners as nodes and establish edges based on adjacency
+        for (int i = 0; i < properties.size(); i++) {
+            Property property1 = properties.get(i);
+            ownerGraph.addVertex(property1.getOwner());
+
+            for (int j = i + 1; j < properties.size(); j++) {
+                Property property2 = properties.get(j);
+                ownerGraph.addVertex(property2.getOwner());
+
+                // Check if the properties are adjacent
+                if (property1.isAdjacentTo(property2)) {
+                    // If the owners are different, add an edge between them
+                    if (!property1.getOwner().equalsIgnoreCase(property2.getOwner())) {
+                        ownerGraph.addEdge(property1.getOwner(), property2.getOwner());
+                    }
+                }
+            }
+        }
+
+        // Visualize the owner graph using JGraphX
+        visualizeOwnerGraph(ownerGraph);
+    }
+
+
+    /**
      * Method to visualize the graph using JGraphX.
      * This method creates a visual representation of the property graph using JGraphX,
      * applying an organic layout and displaying the graph in a JFrame.
@@ -113,12 +152,59 @@ public class PropertyGraph {
     }
 
     /**
-     * Main method to execute Exercise_2.
+     * Method to visualize the owner graph using JGraphX.
+     * This method creates a visual representation of the owner graph using JGraphX,
+     * applying an organic layout and displaying the graph in a JFrame.
+     *
+     * @param graph The graph representing the relationship between owners.
+     */
+    public static void visualizeOwnerGraph(Graph<String, DefaultEdge> graph) {
+        mxGraph jGraph = new mxGraph();
+        Object parent = jGraph.getDefaultParent();
+
+        jGraph.getModel().beginUpdate();
+        try {
+            // Create a mapping between owners and vertices
+            HashMap<String, Object> vertexMap = new HashMap<>();
+
+            // Add vertices to the JGraphX graph
+            for (String owner : graph.vertexSet()) {
+                String style = mxConstants.STYLE_SHAPE + "=" + mxConstants.SHAPE_ELLIPSE + ";" + mxConstants.STYLE_FILLCOLOR + "=#00BFFF;";
+                Object vertex = jGraph.insertVertex(parent, null, owner, Math.random() * 400, Math.random() * 400, 40, 40, style);
+                vertexMap.put(owner, vertex);
+            }
+
+            // Add edges to the JGraphX graph
+            for (DefaultEdge edge : graph.edgeSet()) {
+                String source = graph.getEdgeSource(edge);
+                String target = graph.getEdgeTarget(edge);
+                jGraph.insertEdge(parent, null, "", vertexMap.get(source), vertexMap.get(target));
+            }
+        } finally {
+            jGraph.getModel().endUpdate();
+        }
+
+        // Layout and display the graph in a JFrame
+        mxOrganicLayout layout = new mxOrganicLayout(jGraph);
+        layout.execute(jGraph.getDefaultParent());
+
+        mxGraphComponent graphComponent = new mxGraphComponent(jGraph);
+        JFrame frame = new JFrame("Owner Graph Visualization");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add(graphComponent);
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
+
+    /**
+     * Main method to execute Exercise_2 and Exercise_5.
      *
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
         Exercise_2();
+        Exercise_5();
     }
 }
 

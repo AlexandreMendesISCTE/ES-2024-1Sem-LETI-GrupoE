@@ -605,7 +605,9 @@ public class Property {
 
     /**
      * Main method for testing the Property class.
-     * This method loads properties from a CSV file and checks adjacency between them.
+     * This method runs various operations including showing adjacencies,
+     * calculating average areas, counting adjacent properties with the same owner,
+     * and merging properties where applicable.
      *
      * @param args Command line arguments (not used).
      */
