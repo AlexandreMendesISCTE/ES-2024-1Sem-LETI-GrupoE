@@ -22,13 +22,20 @@ import com.mxgraph.view.mxGraph;
 public class PropertyGraph {
     /**
      * Exercise_2 - Loads properties, creates a graph, and visualizes it.
+     *
+     * @param targetObjectId The object ID to be centered in the visualization, if present.
      */
-    public static void Exercise_2() {
+    public static void Exercise_2(String targetObjectId) {
         // Load properties from CSV file
+        /* 
         List<Property> properties = CsvToPropertyReader.Exercise_1();
         if (properties.size() > 120) {
             properties = properties.subList(0, 120); // Limit the number of properties to 120
         }
+        */
+        List<Property> properties2 = CsvToPropertyReader.Exercise_1();
+        String defaultFreguesia = "Arco da Calheta";
+        List<Property> properties = CsvToPropertyReader.filterPropertiesByFreguesia(properties2, defaultFreguesia);
 
         // Create a graph with properties as vertices and adjacency relations as edges
         Graph<Property, DefaultEdge> propertyGraph = new SimpleGraph<>(DefaultEdge.class);
@@ -48,7 +55,7 @@ public class PropertyGraph {
         }
 
         // Visualize the graph using JGraphX
-        visualizeGraph(propertyGraph);
+        visualizeGraph(propertyGraph, targetObjectId);
     }
 
     /**
@@ -89,43 +96,56 @@ public class PropertyGraph {
         visualizeOwnerGraph(ownerGraph);
     }
 
-
     /**
      * Method to visualize the graph using JGraphX.
      * This method creates a visual representation of the property graph using JGraphX,
      * applying an organic layout and displaying the graph in a JFrame.
      *
      * @param graph The graph to be visualized, with properties as vertices and edges representing adjacency.
+     * @param targetObjectId The object ID to be centered in the visualization, if present.
      */
-    public static void visualizeGraph(Graph<Property, DefaultEdge> graph) {
+    public static void visualizeGraph(Graph<Property, DefaultEdge> graph, String targetObjectId) {
         mxGraph jGraph = new mxGraph();
         Object parent = jGraph.getDefaultParent();
-
+    
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
-
+    
+        Object targetVertex = null;
+    
         jGraph.getModel().beginUpdate();
         try {
             // Create a mapping between properties and vertices
             HashMap<Property, Object> vertexMap = new HashMap<>();
-
+    
             // Add vertices to the JGraphX graph and calculate min/max coordinates
             for (Property property : graph.vertexSet()) {
                 double x = property.getCentroid().getX() / 10000;
                 double y = property.getCentroid().getY() / 10000;
                 String style = mxConstants.STYLE_SHAPE + "=" + mxConstants.SHAPE_ELLIPSE + ";" + mxConstants.STYLE_FILLCOLOR + "=#00BFFF;";
+                
+                // Highlight the vertex with the specified target object ID
+                if (property.getObjectId().equals(targetObjectId)) {
+                    style += mxConstants.STYLE_FILLCOLOR + "=#FF0000;"; // Red color to highlight
+                }
+    
                 Object vertex = jGraph.insertVertex(parent, null, property.getObjectId(), x, y, 40, 40, style);
                 vertexMap.put(property, vertex);
-
+    
                 // Update min/max values
                 if (x < minX) minX = x;
                 if (y < minY) minY = y;
                 if (x > maxX) maxX = x;
                 if (y > maxY) maxY = y;
+    
+                // Store the vertex to be centered if it's the target
+                if (property.getObjectId().equals(targetObjectId)) {
+                    targetVertex = vertex;
+                }
             }
-
+    
             // Add edges to the JGraphX graph
             for (DefaultEdge edge : graph.edgeSet()) {
                 Property source = graph.getEdgeSource(edge);
@@ -135,14 +155,22 @@ public class PropertyGraph {
         } finally {
             jGraph.getModel().endUpdate();
         }
-
+    
         // Layout and display the graph in a JFrame with adjusted bounds
         mxOrganicLayout layout = new mxOrganicLayout(jGraph);
         layout.execute(jGraph.getDefaultParent());
-
+    
+        // If target vertex exists, focus on it
+        if (targetVertex != null) {
+            jGraph.setSelectionCell(targetVertex);
+        }
+    
         mxGraphComponent graphComponent = new mxGraphComponent(jGraph);
         graphComponent.getGraphControl().setBounds((int) minX - 50, (int) minY - 50, (int) (maxX - minX) + 100, (int) (maxY - minY) + 100);
-
+        if (targetVertex != null) {
+            graphComponent.scrollCellToVisible(targetVertex, true);
+        }
+    
         JFrame frame = new JFrame("Property Graph Visualization");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().add(graphComponent);
@@ -203,8 +231,7 @@ public class PropertyGraph {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
-        Exercise_2();
-        Exercise_5();
+        Exercise_2("698");
+        //Exercise_5();
     }
 }
-
