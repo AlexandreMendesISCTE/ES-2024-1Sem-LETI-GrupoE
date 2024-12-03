@@ -1,5 +1,6 @@
-com\example\CsvToPropertyReader.class
 com\example\Property.class
 com\example\Main.class
 com\example\App.class
 com\example\PropertyGraph.class
+com\example\CsvToPropertyReader.class
+com\example\PropertySwapSuggestion.class
