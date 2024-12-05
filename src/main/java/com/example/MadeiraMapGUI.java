@@ -33,16 +33,19 @@ import javax.swing.table.DefaultTableModel;
  * It contains a list of properties and various action buttons for different functionalities.
  */
 public class MadeiraMapGUI {
+
     // Instance Variables
     private List<Property> properties; // List of properties
     private JFrame frame;              // Main application frame
 
-    // Constructor
+    /**
+     * Constructor for MadeiraMapGUI.
+     * Initializes the list of properties by reading from the CSV.
+     */
     public MadeiraMapGUI() {
         properties = CsvToPropertyReader.Exercise_1();
     }
 
-    // Methods for Configuring GUI
     /**
      * Creates and displays the main GUI.
      * Sets up the frame, background image, and buttons.
@@ -87,9 +90,9 @@ public class MadeiraMapGUI {
     /**
      * Adds buttons to the main panel.
      *
-     * @param panel        The panel to add buttons to.
-     * @param imageWidth   The width of the background image.
-     * @param imageHeight  The height of the background image.
+     * @param panel       The panel to add buttons to.
+     * @param imageWidth  The width of the background image.
+     * @param imageHeight The height of the background image.
      */
     private void addButtonsToPanel(JPanel panel, int imageWidth, int imageHeight) {
         int buttonWidth = 150;
@@ -100,7 +103,7 @@ public class MadeiraMapGUI {
 
         // Adding action buttons to the panel
         addButton(panel, "Details", startX, startY, buttonWidth, buttonHeight);
-        addButton(panel, "Property Graph", startX, startY + (buttonHeight + spacing) * 1, buttonWidth, buttonHeight);
+        addButton(panel, "Property Map", startX, startY + (buttonHeight + spacing) * 1, buttonWidth, buttonHeight);
         addButton(panel, "Area", startX, startY + (buttonHeight + spacing) * 2, buttonWidth, buttonHeight);
         addButton(panel, "Owner Graph", startX, startY + (buttonHeight + spacing) * 3, buttonWidth, buttonHeight);
         addButton(panel, "Suggestion", startX, startY + (buttonHeight + spacing) * 4, buttonWidth, buttonHeight);
@@ -157,6 +160,7 @@ public class MadeiraMapGUI {
     }
 
     // Action Handling Methods for Buttons
+
     /**
      * Creates an ActionListener for each button based on its text label.
      *
@@ -170,8 +174,8 @@ public class MadeiraMapGUI {
                 case "Details":
                     handleDetailsAction(panel);
                     break;
-                case "Property Graph":
-                    handlePropertyGraphAction(panel);
+                case "Property Map":
+                    handlePropertyMapAction(panel);
                     break;
                 case "Area":
                     handleAreaAction(panel);
@@ -211,12 +215,12 @@ public class MadeiraMapGUI {
     }
 
     /**
-     * Handles the action for the "Property Graph" button.
-     * Displays the graph representation of a selected property.
+     * Handles the action for the "Property Map" button.
+     * Displays the map representation of a selected property.
      *
      * @param panel The panel that contains the button.
      */
-    private void handlePropertyGraphAction(JPanel panel) {
+    private void handlePropertyMapAction(JPanel panel) {
         String propertyInput = JOptionPane.showInputDialog(panel, "Which property would you like to see on the map?");
         try {
             int propertyNumber = Integer.parseInt(propertyInput);
@@ -238,6 +242,7 @@ public class MadeiraMapGUI {
      * @param panel The panel that contains the button.
      */
     private void handleAreaAction(JPanel panel) {
+        // First question: type of land
         int terrainOption = JOptionPane.showOptionDialog(
                 panel,
                 "What type of land would you like to see?",
@@ -250,11 +255,12 @@ public class MadeiraMapGUI {
         );
 
         if (terrainOption == JOptionPane.CLOSED_OPTION) {
-            return;
+            return; // If the dialog is closed, end the flow
         }
 
         boolean isMerged = (terrainOption == JOptionPane.NO_OPTION);
 
+        // Second question: type of area
         int zoneOption = JOptionPane.showOptionDialog(
                 panel,
                 "What type of area would you like to see?",
@@ -267,18 +273,61 @@ public class MadeiraMapGUI {
         );
 
         if (zoneOption == JOptionPane.CLOSED_OPTION) {
-            return;
+            return; // If the dialog is closed, end the flow
         }
 
         switch (zoneOption) {
-            case JOptionPane.YES_OPTION:
-                JOptionPane.showMessageDialog(panel, "Freguesia selection handled. Merged: " + isMerged);
+            case JOptionPane.YES_OPTION: // Freguesia
+                Set<String> uniqueFreguesias = properties.stream().map(Property::getFreguesia).collect(Collectors.toSet());
+                String freguesiaInput = (String) JOptionPane.showInputDialog(
+                        panel,
+                        "Select a Freguesia:",
+                        "Freguesia Selection",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        uniqueFreguesias.toArray(),
+                        uniqueFreguesias.iterator().next()
+                );
+
+                if (freguesiaInput != null) {
+                    if (isMerged) {
+                        List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesiaInput));
+                        showMergedAreaTable("freguesia", freguesiaInput, mergedProperties);
+                    } else {
+                        showAreaTable("freguesia", freguesiaInput);
+                    }
+                }
                 break;
-            case JOptionPane.NO_OPTION:
-                JOptionPane.showMessageDialog(panel, "Municipio selection handled. Merged: " + isMerged);
+
+            case JOptionPane.NO_OPTION: // Municipio
+                Set<String> uniqueMunicipios = properties.stream().map(Property::getMunicipio).collect(Collectors.toSet());
+                String municipioInput = (String) JOptionPane.showInputDialog(
+                        panel,
+                        "Select a Municipio:",
+                        "Municipio Selection",
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        uniqueMunicipios.toArray(),
+                        uniqueMunicipios.iterator().next()
+                );
+
+                if (municipioInput != null) {
+                    if (isMerged) {
+                        List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipioInput));
+                        showMergedAreaTable("municipio", municipioInput, mergedProperties);
+                    } else {
+                        showAreaTable("municipio", municipioInput);
+                    }
+                }
                 break;
-            case JOptionPane.CANCEL_OPTION:
-                JOptionPane.showMessageDialog(frame, "Ilha selection handled. Merged: " + isMerged);
+
+            case JOptionPane.CANCEL_OPTION: // Ilha
+                if (isMerged) {
+                    List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByIlha(properties, "Ilha da Madeira (Madeira)"));
+                    showMergedAreaTable("ilha", "Ilha da Madeira (Madeira)", mergedProperties);
+                } else {
+                    showAreaTable("ilha", "Ilha da Madeira (Madeira)");
+                }
                 break;
         }
     }
@@ -389,6 +438,7 @@ public class MadeiraMapGUI {
     }
 
     // Helper Methods for Display Actions
+
     /**
      * Displays a table with area details for the selected location.
      *
@@ -556,8 +606,14 @@ public class MadeiraMapGUI {
         }
         return adjacencyInfo.length() > 0 ? adjacencyInfo.toString() : "None";
     }
-    
+
     // Main Method
+
+    /**
+     * Main method to launch the GUI application.
+     *
+     * @param args Command-line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MadeiraMapGUI().createAndShowGUI());
     }

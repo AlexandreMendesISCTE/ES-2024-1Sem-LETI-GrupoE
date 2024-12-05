@@ -5,7 +5,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
@@ -18,17 +22,53 @@ import org.apache.commons.csv.CSVRecord;
  */
 public class CsvToPropertyReader {
 
+    // Variable to store the selected CSV file path
+    private static File selectedCsvFile;
+
+    // Expected column headers in the CSV file
+    private static final Set<String> REQUIRED_COLUMNS = Set.of(
+            "OBJECTID", "PAR_ID", "PAR_NUM", "Shape_Length", "Shape_Area", "geometry", "OWNER", "Freguesia", "Municipio", "Ilha"
+    );
+
     /**
-     * Reads a CSV file and returns a list of Property objects.
+     * Allows the user to select a CSV file through a file chooser dialog.
+     */
+    private static void selectCsvFile() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select a CSV file containing property data");
+        int userSelection = fileChooser.showOpenDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            selectedCsvFile = fileChooser.getSelectedFile();
+        } else {
+            JOptionPane.showMessageDialog(null, "No file selected. Operation cancelled.", "File Selection", JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    /**
+     * Reads the selected CSV file and returns a list of Property objects.
      *
-     * @param csvFile The CSV file to read from.
      * @return A list of Property objects representing the data in the CSV file.
      */
-    public static List<Property> readPropertiesFromCsv(File csvFile) {
+    public static List<Property> readPropertiesFromCsv() {
+        if (selectedCsvFile == null) {
+            selectCsvFile();
+            if (selectedCsvFile == null) {
+                return new ArrayList<>(); // Return an empty list if no file was selected
+            }
+        }
+
         List<Property> properties = new ArrayList<>();
 
-        try (FileReader reader = new FileReader(csvFile);
+        try (FileReader reader = new FileReader(selectedCsvFile);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim().withDelimiter(';'))) {
+
+            // Validate CSV headers
+            Set<String> csvHeaders = csvParser.getHeaderMap().keySet();
+            if (!csvHeaders.containsAll(REQUIRED_COLUMNS)) {
+                JOptionPane.showMessageDialog(null, "The file format is not compatible. Missing required columns.", "File Format Error", JOptionPane.ERROR_MESSAGE);
+                return properties; // Return an empty list if the file format is incorrect
+            }
 
             // Iterate over each record in the CSV file
             for (CSVRecord record : csvParser) {
@@ -53,7 +93,7 @@ public class CsvToPropertyReader {
 
         } catch (IOException e) {
             // Handle exceptions that occur during file reading
-            System.err.println("Error reading CSV file: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Error reading CSV file: " + e.getMessage(), "File Reading Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
 
@@ -61,16 +101,14 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Exercise_1 function reads a specific CSV file and returns the list of Property objects.
+     * Exercise_1 function reads the selected CSV file and returns the list of Property objects.
      * This method also prints the properties to verify the results.
      *
      * @return A list of Property objects read from the CSV file.
      */
     public static List<Property> Exercise_1() {
-        // Define the CSV file to be read
-        File csvFile = new File("src/main/resources/Madeira-Moodle-1.1.csv");
-        List<Property> properties = readPropertiesFromCsv(csvFile);
-        
+        List<Property> properties = readPropertiesFromCsv();
+
         // Print the properties to verify the results
         if (properties.isEmpty()) {
             System.out.println("No properties found in the CSV file.");
@@ -99,7 +137,6 @@ public class CsvToPropertyReader {
         }
         return filteredProperties;
     }
-    
 
     /**
      * Filters the list of properties to only include those with a specific "Municipio".
@@ -117,7 +154,6 @@ public class CsvToPropertyReader {
         }
         return filteredProperties;
     }
-    
 
     /**
      * Filters the list of properties to only include those with a specific "Ilha".
@@ -135,7 +171,6 @@ public class CsvToPropertyReader {
         }
         return filteredProperties;
     }
-    
 
     /**
      * Main method to execute the Exercise_1 function and verify the output.
@@ -143,9 +178,9 @@ public class CsvToPropertyReader {
      * @param args Command line arguments (not used).
      */
     public static void main(String[] args) {
-        Exercise_1(); // Call the Exercise_1 method to read properties from the CSV file
-        filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia"
-        filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio"
-        filterPropertiesByIlha(Exercise_1(), "Ilha da Madeira (Madeira)"); // Filter properties by "Ilha"
+        Exercise_1(); // Call the Exercise_1 method to read properties from the selected CSV file
+        //filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia"
+        //filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio"
+        //filterPropertiesByIlha(Exercise_1(), "Ilha da Madeira (Madeira)"); // Filter properties by "Ilha"
     }
 }
