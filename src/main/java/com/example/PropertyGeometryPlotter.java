@@ -229,7 +229,7 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
         PropertyGeometryPlotter plotter = new PropertyGeometryPlotter("Property Geometry Plot");
         //plotter.drawProperty(CsvToPropertyReader.Exercise_1(), "Arco da Calheta", 1);
         //plotter.drawProperties(CsvToPropertyReader.Exercise_1(), "Arco da Calheta", 1, 2);
-        plotter.drawAllProperties(CsvToPropertyReader.filterPropertiesByFreguesia(CsvToPropertyReader.Exercise_1(), "Arco da Calheta"));
-        //plotter.drawAllProperties(CsvToPropertyReader.Exercise_1());
+        //plotter.drawAllProperties(CsvToPropertyReader.filterPropertiesByFreguesia(CsvToPropertyReader.Exercise_1(), "Arco da Calheta"));
+        plotter.drawAllProperties(CsvToPropertyReader.Exercise_1());
     }
 }

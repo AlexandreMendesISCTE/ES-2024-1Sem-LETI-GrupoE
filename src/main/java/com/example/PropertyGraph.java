@@ -172,7 +172,7 @@ public class PropertyGraph {
         }
     
         JFrame frame = new JFrame("Property Graph Visualization");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(graphComponent);
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -218,7 +218,7 @@ public class PropertyGraph {
 
         mxGraphComponent graphComponent = new mxGraphComponent(jGraph);
         JFrame frame = new JFrame("Owner Graph Visualization");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().add(graphComponent);
         frame.pack();
         frame.setLocationRelativeTo(null);

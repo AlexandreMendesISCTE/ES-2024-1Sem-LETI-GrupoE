@@ -1,13 +1,18 @@
 package com.example;
 
+import javax.swing.SwingUtilities;
+
 /**
- * Hello world!
- *
+ * Main application entry point.
+ * Responsible for launching the MadeiraMapGUI.
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+    
+    public static void main(String[] args) {
+        // Launch MadeiraMapGUI using SwingUtilities to ensure thread safety
+        SwingUtilities.invokeLater(() -> {
+            MadeiraMapGUI gui = new MadeiraMapGUI();
+            gui.createAndShowGUI();
+        });
     }
 }

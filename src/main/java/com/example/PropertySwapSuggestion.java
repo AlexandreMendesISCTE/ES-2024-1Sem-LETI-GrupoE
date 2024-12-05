@@ -295,7 +295,8 @@ public class PropertySwapSuggestion {
         generateSwapSuggestions(filteredProperties);
 
         // Print owner and area for specific properties
-        printOwnerAndAreaForProperties();
+        // TEST
+        //printOwnerAndAreaForProperties();
     }
 
     /**
