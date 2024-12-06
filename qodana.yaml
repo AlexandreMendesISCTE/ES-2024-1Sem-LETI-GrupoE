@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #-------------------------------------------------------------------------------#
 #               Qodana analysis is configured by qodana.yaml file               #
 #             https://www.jetbrains.com/help/qodana/qodana-yaml.html            #
@@ -27,3 +28,11 @@ profile:
 
 #Specify Qodana linter for analysis (Applied in CI/CD pipeline)
 linter: jetbrains/qodana-jvm-community:2024.2
+=======
+version: "1.0"
+linter: jetbrains/qodana-jvm:2024.2
+profile:
+  name: qodana.recommended
+include:
+  - name: CheckDependencyLicenses
+>>>>>>> c87bea64f3576804d3978258c412581e01ce6916
