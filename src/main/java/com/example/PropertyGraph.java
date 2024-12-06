@@ -48,7 +48,7 @@ public class PropertyGraph {
         // Add edges between adjacent properties
         for (Property property1 : properties) {
             for (Property property2 : properties) {
-                if (!property1.equals(property2) && property1.isAdjacentTo(property2)) {
+                if (!property1.equals(property2) && PropertyAdjacencyUtils.areAdjacent(property1, property2)) {
                     propertyGraph.addEdge(property1, property2);
                 }
             }
@@ -83,7 +83,7 @@ public class PropertyGraph {
                 ownerGraph.addVertex(property2.getOwner());
 
                 // Check if the properties are adjacent
-                if (property1.isAdjacentTo(property2)) {
+                if (PropertyAdjacencyUtils.areAdjacent(property1, property2)) {
                     // If the owners are different, add an edge between them
                     if (!property1.getOwner().equalsIgnoreCase(property2.getOwner())) {
                         ownerGraph.addEdge(property1.getOwner(), property2.getOwner());
@@ -122,8 +122,8 @@ public class PropertyGraph {
     
             // Add vertices to the JGraphX graph and calculate min/max coordinates
             for (Property property : graph.vertexSet()) {
-                double x = property.getCentroid().getX() / 10000;
-                double y = property.getCentroid().getY() / 10000;
+                double x = PropertyGeometryUtils.getCentroid(property).getX() / 10000;
+                double y = PropertyGeometryUtils.getCentroid(property).getY() / 10000;
                 String style = mxConstants.STYLE_SHAPE + "=" + mxConstants.SHAPE_ELLIPSE + ";" + mxConstants.STYLE_FILLCOLOR + "=#00BFFF;";
                 
                 // Highlight the vertex with the specified target object ID

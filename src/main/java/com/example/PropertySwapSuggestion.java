@@ -65,7 +65,7 @@ public class PropertySwapSuggestion {
                 // Check if property2 is adjacent to any other property owned by property1's owner
                 boolean hasAdjacentToOwner = false;
                 for (Property property : properties) {
-                    if (property.getOwner().equalsIgnoreCase(property1.getOwner()) && property.isAdjacentTo(property2)) {
+                    if (property.getOwner().equalsIgnoreCase(property1.getOwner()) && PropertyAdjacencyUtils.areAdjacent(property, property2)) {
                         hasAdjacentToOwner = true;
                         break;
                     }
@@ -187,7 +187,7 @@ public class PropertySwapSuggestion {
             Property property1 = mergedProperties.get(i);
             for (int j = i + 1; j < mergedProperties.size(); j++) {
                 Property property2 = mergedProperties.get(j);
-                if (property1.getOwner().equalsIgnoreCase(property2.getOwner()) && property1.isAdjacentTo(property2)) {
+                if (property1.getOwner().equalsIgnoreCase(property2.getOwner()) && PropertyAdjacencyUtils.areAdjacent(property1, property2)) {
                     // Merge property2 into property1
                     double newArea = Double.parseDouble(property1.getShapeArea()) + Double.parseDouble(property2.getShapeArea());
                     property1.setShapeArea(String.valueOf(newArea));

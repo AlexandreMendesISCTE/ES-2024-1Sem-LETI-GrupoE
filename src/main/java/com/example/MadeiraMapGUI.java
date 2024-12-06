@@ -291,7 +291,7 @@ public class MadeiraMapGUI {
 
                 if (freguesiaInput != null) {
                     if (isMerged) {
-                        List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesiaInput));
+                        List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesiaInput));
                         showMergedAreaTable("freguesia", freguesiaInput, mergedProperties);
                     } else {
                         showAreaTable("freguesia", freguesiaInput);
@@ -313,7 +313,7 @@ public class MadeiraMapGUI {
 
                 if (municipioInput != null) {
                     if (isMerged) {
-                        List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipioInput));
+                        List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipioInput));
                         showMergedAreaTable("municipio", municipioInput, mergedProperties);
                     } else {
                         showAreaTable("municipio", municipioInput);
@@ -323,7 +323,7 @@ public class MadeiraMapGUI {
 
             case JOptionPane.CANCEL_OPTION: // Ilha
                 if (isMerged) {
-                    List<Property> mergedProperties = Property.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByIlha(properties, "Ilha da Madeira (Madeira)"));
+                    List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByIlha(properties, "Ilha da Madeira (Madeira)"));
                     showMergedAreaTable("ilha", "Ilha da Madeira (Madeira)", mergedProperties);
                 } else {
                     showAreaTable("ilha", "Ilha da Madeira (Madeira)");
@@ -472,7 +472,7 @@ public class MadeiraMapGUI {
 
         double averageArea = 0.0;
         try {
-            averageArea = Property.calculateAverageArea(filteredProperties);
+            averageArea = PropertyGeometryUtils.calculateAverageArea(filteredProperties);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(frame, "No valid property areas found for calculation.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -502,7 +502,7 @@ public class MadeiraMapGUI {
 
         double averageArea = 0.0;
         try {
-            averageArea = Property.calculateAverageArea(mergedProperties);
+            averageArea = PropertyGeometryUtils.calculateAverageArea(mergedProperties);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(frame, "No valid property areas found for calculation.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
@@ -597,7 +597,7 @@ public class MadeiraMapGUI {
     private String getAdjacentProperties(Property property) {
         StringBuilder adjacencyInfo = new StringBuilder();
         for (Property otherProperty : properties) {
-            if (!property.equals(otherProperty) && property.isAdjacentTo(otherProperty)) {
+            if (!property.equals(otherProperty) && PropertyAdjacencyUtils.areAdjacent(property, otherProperty)) {
                 if (adjacencyInfo.length() > 0) {
                     adjacencyInfo.append(", ");
                 }
