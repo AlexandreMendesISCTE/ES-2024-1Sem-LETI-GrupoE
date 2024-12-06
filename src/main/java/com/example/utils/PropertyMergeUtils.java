@@ -1,4 +1,4 @@
-package com.example;
+package com.example.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -9,6 +9,8 @@ import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.io.WKTReader;
 import org.locationtech.jts.io.WKTWriter;
+
+import com.example.Property;
 
 /**
  * Utility class for merging adjacent properties with the same owner.
@@ -72,6 +74,33 @@ public class PropertyMergeUtils {
 
             mergedProperties.add(currentProperty);
             mergedObjectIds.add(currentProperty.getObjectId());
+        }
+
+        return mergedProperties;
+    }
+
+    /**
+     * Merge adjacent properties with the same owner.
+     *
+     * @param properties The list of properties to be merged.
+     * @return A new list of properties after merging adjacent properties with the same owner.
+     */
+    public static List<Property> mergeProperties(List<Property> properties) {
+        List<Property> mergedProperties = new ArrayList<>(properties);
+
+        // Logic to merge adjacent properties with the same owner
+        for (int i = 0; i < mergedProperties.size(); i++) {
+            Property property1 = mergedProperties.get(i);
+            for (int j = i + 1; j < mergedProperties.size(); j++) {
+                Property property2 = mergedProperties.get(j);
+                if (property1.getOwner().equalsIgnoreCase(property2.getOwner()) && PropertyAdjacencyUtils.areAdjacent(property1, property2)) {
+                    // Merge property2 into property1
+                    double newArea = Double.parseDouble(property1.getShapeArea()) + Double.parseDouble(property2.getShapeArea());
+                    property1.setShapeArea(String.valueOf(newArea));
+                    mergedProperties.remove(j);
+                    j--; // Adjust index after removal
+                }
+            }
         }
 
         return mergedProperties;

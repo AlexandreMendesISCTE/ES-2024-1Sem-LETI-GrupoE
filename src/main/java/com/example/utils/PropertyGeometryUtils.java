@@ -1,11 +1,16 @@
-package com.example;
+package com.example.utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.WKTReader;
+
+import com.example.Property;
 
 /**
  * Utility class for handling geometric operations related to properties.
@@ -60,5 +65,37 @@ public class PropertyGeometryUtils {
         }
 
         return totalArea / count;
+    }
+        
+
+    /**
+     * Calculate the average area of properties for each owner.
+     *
+     * @param properties The list of Property objects to be analyzed.
+     * @return A map containing the average area per owner.
+     */
+    public static Map<String, Double> calculateAverageAreaPerOwner(List<Property> properties) {
+        Map<String, List<Double>> ownerAreas = new HashMap<>();
+
+        // Group property areas by owner
+        for (Property property : properties) {
+            try {
+                double area = Double.parseDouble(property.getShapeArea());
+                ownerAreas.computeIfAbsent(property.getOwner(), k -> new ArrayList<>()).add(area);
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid area value for property " + property.getObjectId() + ": " + property.getShapeArea());
+            }
+        }
+
+        // Calculate the average area for each owner
+        Map<String, Double> averageAreaPerOwner = new HashMap<>();
+        for (Map.Entry<String, List<Double>> entry : ownerAreas.entrySet()) {
+            List<Double> areas = entry.getValue();
+            double totalArea = areas.stream().mapToDouble(Double::doubleValue).sum();
+            double averageArea = totalArea / areas.size();
+            averageAreaPerOwner.put(entry.getKey(), averageArea);
+        }
+
+        return averageAreaPerOwner;
     }
 }
