@@ -29,9 +29,11 @@ public class PropertyGeometryUtils {
             WKTReader reader = new WKTReader(geometryFactory);
             Geometry geometry = reader.read(property.getGeometry());
             return geometry.getCentroid();
-        } catch (Exception e) {
-            System.err.println("Error reading geometry for centroid calculation: " + e.getMessage());
-            e.printStackTrace();
+        } catch (org.locationtech.jts.io.ParseException e) {
+            System.err.println("Parse error reading geometry for centroid calculation: " + e.getMessage());
+            return null;
+        } catch (NullPointerException e) {
+            System.err.println("Null pointer error reading geometry for centroid calculation: " + e.getMessage());
             return null;
         }
     }

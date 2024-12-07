@@ -4,7 +4,13 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.List;
-import javax.swing.*;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import com.example.utils.ButtonHandlerFactory;
 
 /**
@@ -15,7 +21,7 @@ import com.example.utils.ButtonHandlerFactory;
 public class MadeiraMapGUI {
 
     // Instance Variables
-    private List<Property> properties; // List of properties
+    private final List<Property> properties; // List of properties
     private JFrame frame;              // Main application frame
 
     /**

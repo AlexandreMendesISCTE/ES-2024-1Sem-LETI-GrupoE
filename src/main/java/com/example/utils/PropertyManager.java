@@ -12,7 +12,7 @@ import com.example.Property;
  */
 public class PropertyManager {
 
-    private List<Property> properties;
+    private final List<Property> properties;
 
     /**
      * Constructor for PropertyManager.
