@@ -1,0 +1,41 @@
+==== CONFIGS ====		
+{
+    "base_path": "c:\\Users\\alexa\\Desktop\\ES-2024-2Sem-LETI-GrupoE\\src",
+    "out": "c:\\Users\\alexa\\Desktop\\ES-2024-2Sem-LETI-GrupoE\\src\\javadoc",
+    "javadoc_executable": "C:\\Program Files\\Eclipse Adoptium\\jdk-21.0.5.11-hotspot\\bin\\javadoc.exe",
+    "exclude": [],
+    "raw_params": ""
+}
+
+==== COMMAND ====
+"C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\bin\javadoc.exe" 
+	-sourcepath "c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src" 
+	-d "c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\javadoc" 
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\App.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\CsvToPropertyReader.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\AreaButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\DetailsButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\ExtraButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\OwnerGraphButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\PropertyMapButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\handlers\SuggestionButtonHandler.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\MadeiraMapGUI.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\Property.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\PropertyGeometryPlotter.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\PropertyGraph.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\PropertySwapSuggestion.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\ButtonHandlerFactory.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertyAdjacencyUtils.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertyGeometryUtils.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertyManager.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertyMergeUtils.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertySwapManager.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\main\java\com\example\utils\PropertySwapSuggestionPrinter.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\CsvToPropertyReaderTest.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\MadeiraMapGUITest.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\PropertyGeometryPlotterTest.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\PropertyGraphTest.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\PropertySwapSuggestionTest.java"
+	"c:\Users\alexa\Desktop\ES-2024-2Sem-LETI-GrupoE\src\test\java\com\example\PropertyTest.java"
+
+
