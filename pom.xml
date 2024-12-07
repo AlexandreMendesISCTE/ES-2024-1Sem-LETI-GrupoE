@@ -76,18 +76,6 @@
         <artifactId>jfreechart</artifactId>
         <version>1.5.5</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/uk.co.caprica/vlcj -->
-    <dependency>
-        <groupId>uk.co.caprica</groupId>
-        <artifactId>vlcj</artifactId>
-        <version>5.0.0-M1</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/uk.co.caprica/vlcj-natives -->
-    <dependency>
-        <groupId>uk.co.caprica</groupId>
-        <artifactId>vlcj-natives</artifactId>
-        <version>5.0.0-M1</version>
-    </dependency>
   </dependencies>
 
   <build>

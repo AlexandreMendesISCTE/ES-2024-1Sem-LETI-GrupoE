@@ -20,9 +20,11 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 /**
- * The CsvToPropertyReader class is responsible for reading property data from a CSV file
- * and converting it into a list of Property objects. This class uses Apache Commons CSV
- * to parse the CSV file and create Property instances from each record.
+ * The CsvToPropertyReader class is responsible for:
+ * - Reading property data from a CSV file.
+ * - Converting the data into a list of {@link Property} objects.
+ * - Providing filtering methods to retrieve utility functionality.
+ * This class uses Apache Commons CSV for parsing.
  */
 public class CsvToPropertyReader {
 
@@ -38,6 +40,7 @@ public class CsvToPropertyReader {
 
     /**
      * Allows the user to select a CSV file through a file chooser dialog.
+     * If no file is selected, a warning message is displayed.
      */
     private static void selectCsvFile() {
         JFileChooser fileChooser = new JFileChooser();
@@ -52,9 +55,10 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Reads the selected CSV file and returns a list of Property objects.
+     * Reads the selected CSV file and converts its records into a list of {@link Property} objects.
+     * Ensures that required headers are present and logs any errors during parsing.
      *
-     * @return A list of Property objects representing the data in the CSV file.
+     * @return A list of {@link Property} objects representing the data in the CSV file.
      */
     public static List<Property> readPropertiesFromCsv() {
         if (selectedCsvFile == null) {
@@ -85,9 +89,9 @@ public class CsvToPropertyReader {
 
             // Iterate over each record in the CSV file
             for (CSVRecord record : csvParser) {
-                // Check if the record is not empty
+                // Check if the record has a valid OBJECTID
                 if (!record.get("OBJECTID").isEmpty()) {
-                    // Create a new Property object from each record in the CSV
+                    // Create a new Property object from the record
                     Property property = new Property(
                             record.get("OBJECTID"),
                             record.get("PAR_ID"),
@@ -105,7 +109,7 @@ public class CsvToPropertyReader {
             }
 
         } catch (IOException e) {
-            // Handle exceptions that occur during file reading
+            // Handle exceptions during file reading
             LOGGER.log(Level.SEVERE, "Error reading CSV file", e);
             JOptionPane.showMessageDialog(null, "Error reading CSV file: " + e.getMessage(), "File Reading Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -114,29 +118,30 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Exercise_1 function reads the selected CSV file and returns the list of Property objects.
-     * This method also prints the properties to verify the results.
+     * Reads properties from a CSV file and returns them as a list of {@link Property} objects.
+     * Logs the properties for verification and debugging.
      *
-     * @return A list of Property objects read from the CSV file.
+     * @return A list of {@link Property} objects read from the CSV file.
      */
     public static List<Property> Exercise_1() {
         List<Property> properties = readPropertiesFromCsv();
 
-        // Print the properties to verify the results
+        // Log the properties if any are found
         if (properties.isEmpty()) {
             LOGGER.info("No properties found in the CSV file.");
         } else {
-            //properties.forEach(property -> LOGGER.info(property.toString()));
+            LOGGER.info(properties.size() + " properties successfully loaded.");
         }
-        return properties; // Return the list of properties
+        return properties;
     }
 
     /**
-     * Filters the list of properties to only include those with a specific "Freguesia".
+     * Filters properties by a specific "Freguesia".
      *
-     * @param properties The list of Property objects to be filtered.
-     * @param freguesia The name of the "Freguesia" to filter by.
-     * @return A filtered list of Property objects with the specified "Freguesia".
+     * @param properties The list of {@link Property} objects to filter.
+     * @param freguesia  The name of the "Freguesia" to filter by.
+     * @return A list of properties that belong to the specified "Freguesia".
+     * @throws IllegalArgumentException If no properties are found for the specified "Freguesia".
      */
     public static List<Property> filterPropertiesByFreguesia(List<Property> properties, String freguesia) {
         List<Property> filteredProperties = properties.stream()
@@ -149,11 +154,12 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Filters the list of properties to only include those with a specific "Municipio".
+     * Filters properties by a specific "Municipio".
      *
-     * @param properties The list of Property objects to be filtered.
-     * @param municipio The name of the "Municipio" to filter by.
-     * @return A filtered list of Property objects with the specified "Municipio".
+     * @param properties The list of {@link Property} objects to filter.
+     * @param municipio  The name of the "Municipio" to filter by.
+     * @return A list of properties that belong to the specified "Municipio".
+     * @throws IllegalArgumentException If no properties are found for the specified "Municipio".
      */
     public static List<Property> filterPropertiesByMunicipio(List<Property> properties, String municipio) {
         List<Property> filteredProperties = properties.stream()
@@ -166,11 +172,12 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Filters the list of properties to only include those with a specific "Ilha".
+     * Filters properties by a specific "Ilha".
      *
-     * @param properties The list of Property objects to be filtered.
-     * @param ilha The name of the "Ilha" to filter by.
-     * @return A filtered list of Property objects with the specified "Ilha".
+     * @param properties The list of {@link Property} objects to filter.
+     * @param ilha       The name of the "Ilha" to filter by.
+     * @return A list of properties that belong to the specified "Ilha".
+     * @throws IllegalArgumentException If no properties are found for the specified "Ilha".
      */
     public static List<Property> filterPropertiesByIlha(List<Property> properties, String ilha) {
         List<Property> filteredProperties = properties.stream()
@@ -183,11 +190,11 @@ public class CsvToPropertyReader {
     }
 
     /**
-     * Main method to execute the Exercise_1 function and verify the output.
+     * Main method to test the functionality of reading properties from a CSV file.
      *
-     * @param args Command line arguments (not used).
+     * @param args Command-line arguments (not used).
      */
     public static void main(String[] args) {
-        Exercise_1(); // Call the Exercise_1 method to read properties from the selected CSV file
+        Exercise_1(); // Read and log properties from the selected CSV file
     }
 }

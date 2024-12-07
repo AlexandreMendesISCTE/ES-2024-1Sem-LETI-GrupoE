@@ -1,35 +1,35 @@
 package com.example;
 
 /**
- * The Property class represents a property with various attributes such as object ID, parcel ID,
- * geometry, owner, and location details.
+ * Represents a property with various attributes such as object ID, parcel details,
+ * geometry, owner information, and location details (freguesia, municipio, ilha).
  */
 public class Property {
-    // Private fields for storing property details
-    private String objectId;
-    private String parId;
-    private String parNum;
-    private String shapeLength;
-    private String shapeArea;
-    private String geometry;
-    private String owner;
-    private String freguesia;
-    private String municipio;
-    private String ilha;
+    // Private fields to store property details
+    private String objectId;     // Unique identifier for the property
+    private String parId;        // Parcel ID
+    private String parNum;       // Parcel number
+    private String shapeLength;  // Boundary length of the property
+    private String shapeArea;    // Area of the property
+    private String geometry;     // Geometry in WKT (Well-Known Text) format
+    private String owner;        // Owner of the property
+    private String freguesia;    // Freguesia (parish) where the property is located
+    private String municipio;    // Municipality where the property is located
+    private String ilha;         // Island where the property is located
 
     /**
-     * Constructor to initialize all fields of the Property class.
+     * Constructs a Property object with all the required attributes.
      *
-     * @param objectId Unique identifier for the property.
-     * @param parId Parcel ID of the property.
-     * @param parNum Parcel number of the property.
+     * @param objectId    Unique identifier for the property.
+     * @param parId       Parcel ID of the property.
+     * @param parNum      Parcel number of the property.
      * @param shapeLength Length of the property boundary.
-     * @param shapeArea Area of the property.
-     * @param geometry Geometry of the property in WKT format.
-     * @param owner Owner of the property.
-     * @param freguesia Freguesia (parish) where the property is located.
-     * @param municipio Municipality where the property is located.
-     * @param ilha Island where the property is located.
+     * @param shapeArea   Area of the property.
+     * @param geometry    Geometry of the property in WKT format.
+     * @param owner       Owner of the property.
+     * @param freguesia   Freguesia (parish) where the property is located.
+     * @param municipio   Municipality where the property is located.
+     * @param ilha        Island where the property is located.
      */
     public Property(String objectId, String parId, String parNum, String shapeLength, String shapeArea,
                     String geometry, String owner, String freguesia, String municipio, String ilha) {
@@ -45,12 +45,12 @@ public class Property {
         this.ilha = ilha;
     }
 
-    // Getter and setter methods for all fields
+    // Getter and setter methods for each field
 
     /**
      * Gets the object ID of the property.
      *
-     * @return The object ID of the property.
+     * @return The object ID.
      */
     public String getObjectId() {
         return objectId;
@@ -59,7 +59,7 @@ public class Property {
     /**
      * Sets the object ID of the property.
      *
-     * @param objectId The new object ID of the property.
+     * @param objectId The new object ID.
      */
     public void setObjectId(String objectId) {
         this.objectId = objectId;
@@ -68,7 +68,7 @@ public class Property {
     /**
      * Gets the parcel ID of the property.
      *
-     * @return The parcel ID of the property.
+     * @return The parcel ID.
      */
     public String getParId() {
         return parId;
@@ -77,7 +77,7 @@ public class Property {
     /**
      * Sets the parcel ID of the property.
      *
-     * @param parId The new parcel ID of the property.
+     * @param parId The new parcel ID.
      */
     public void setParId(String parId) {
         this.parId = parId;
@@ -86,7 +86,7 @@ public class Property {
     /**
      * Gets the parcel number of the property.
      *
-     * @return The parcel number of the property.
+     * @return The parcel number.
      */
     public String getParNum() {
         return parNum;
@@ -95,7 +95,7 @@ public class Property {
     /**
      * Sets the parcel number of the property.
      *
-     * @param parNum The new parcel number of the property.
+     * @param parNum The new parcel number.
      */
     public void setParNum(String parNum) {
         this.parNum = parNum;
@@ -104,7 +104,7 @@ public class Property {
     /**
      * Gets the length of the property boundary.
      *
-     * @return The length of the property boundary.
+     * @return The boundary length.
      */
     public String getShapeLength() {
         return shapeLength;
@@ -113,7 +113,7 @@ public class Property {
     /**
      * Sets the length of the property boundary.
      *
-     * @param shapeLength The new length of the property boundary.
+     * @param shapeLength The new boundary length.
      */
     public void setShapeLength(String shapeLength) {
         this.shapeLength = shapeLength;
@@ -122,7 +122,7 @@ public class Property {
     /**
      * Gets the area of the property.
      *
-     * @return The area of the property.
+     * @return The area.
      */
     public String getShapeArea() {
         return shapeArea;
@@ -131,7 +131,7 @@ public class Property {
     /**
      * Sets the area of the property.
      *
-     * @param shapeArea The new area of the property.
+     * @param shapeArea The new area.
      */
     public void setShapeArea(String shapeArea) {
         this.shapeArea = shapeArea;
@@ -140,7 +140,7 @@ public class Property {
     /**
      * Gets the geometry of the property in WKT format.
      *
-     * @return The geometry of the property.
+     * @return The geometry in WKT format.
      */
     public String getGeometry() {
         return geometry;
@@ -149,7 +149,7 @@ public class Property {
     /**
      * Sets the geometry of the property in WKT format.
      *
-     * @param geometry The new geometry of the property.
+     * @param geometry The new geometry in WKT format.
      */
     public void setGeometry(String geometry) {
         this.geometry = geometry;
@@ -158,7 +158,7 @@ public class Property {
     /**
      * Gets the owner of the property.
      *
-     * @return The owner of the property.
+     * @return The owner.
      */
     public String getOwner() {
         return owner;
@@ -167,7 +167,7 @@ public class Property {
     /**
      * Sets the owner of the property.
      *
-     * @param owner The new owner of the property.
+     * @param owner The new owner.
      */
     public void setOwner(String owner) {
         this.owner = owner;
@@ -176,7 +176,7 @@ public class Property {
     /**
      * Gets the freguesia (parish) where the property is located.
      *
-     * @return The freguesia where the property is located.
+     * @return The freguesia.
      */
     public String getFreguesia() {
         return freguesia;
@@ -185,7 +185,7 @@ public class Property {
     /**
      * Sets the freguesia (parish) where the property is located.
      *
-     * @param freguesia The new freguesia where the property is located.
+     * @param freguesia The new freguesia.
      */
     public void setFreguesia(String freguesia) {
         this.freguesia = freguesia;
@@ -194,7 +194,7 @@ public class Property {
     /**
      * Gets the municipality where the property is located.
      *
-     * @return The municipality where the property is located.
+     * @return The municipality.
      */
     public String getMunicipio() {
         return municipio;
@@ -203,7 +203,7 @@ public class Property {
     /**
      * Sets the municipality where the property is located.
      *
-     * @param municipio The new municipality where the property is located.
+     * @param municipio The new municipality.
      */
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
@@ -212,7 +212,7 @@ public class Property {
     /**
      * Gets the island where the property is located.
      *
-     * @return The island where the property is located.
+     * @return The island.
      */
     public String getIlha() {
         return ilha;
@@ -221,16 +221,16 @@ public class Property {
     /**
      * Sets the island where the property is located.
      *
-     * @param ilha The new island where the property is located.
+     * @param ilha The new island.
      */
     public void setIlha(String ilha) {
         this.ilha = ilha;
     }
 
     /**
-     * Overridden toString method for representing the property details as a String.
+     * Returns a string representation of the property, including all its details.
      *
-     * @return A string representation of the property details.
+     * @return A string representing the property.
      */
     @Override
     public String toString() {

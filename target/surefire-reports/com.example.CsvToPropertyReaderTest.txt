@@ -1,4 +1,23 @@
 -------------------------------------------------------------------------------
 Test set: com.example.CsvToPropertyReaderTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 10.575 s - in com.example.CsvToPropertyReaderTest
+Tests run: 4, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 30.342 s <<< FAILURE! - in com.example.CsvToPropertyReaderTest
+com.example.CsvToPropertyReaderTest.testFilterPropertiesByFreguesia()  Time elapsed: 3.034 s  <<< FAILURE!
+java.lang.IllegalArgumentException: No properties found for Freguesia: Arco da Calheta
+	at com.example.CsvToPropertyReader.filterPropertiesByFreguesia(CsvToPropertyReader.java:151)
+	at com.example.CsvToPropertyReaderTest.testFilterPropertiesByFreguesia(CsvToPropertyReaderTest.java:22)
+
+com.example.CsvToPropertyReaderTest.testFilterPropertiesByMunicipio()  Time elapsed: 1.365 s  <<< FAILURE!
+java.lang.IllegalArgumentException: No properties found for Municipio: Calheta
+	at com.example.CsvToPropertyReader.filterPropertiesByMunicipio(CsvToPropertyReader.java:169)
+	at com.example.CsvToPropertyReaderTest.testFilterPropertiesByMunicipio(CsvToPropertyReaderTest.java:33)
+
+com.example.CsvToPropertyReaderTest.testReadPropertiesFromCsv()  Time elapsed: 2.815 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: The properties list should not be empty ==> expected: <false> but was: <true>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertFalse.failNotFalse(AssertFalse.java:63)
+	at org.junit.jupiter.api.AssertFalse.assertFalse(AssertFalse.java:36)
+	at org.junit.jupiter.api.Assertions.assertFalse(Assertions.java:239)
+	at com.example.CsvToPropertyReaderTest.testReadPropertiesFromCsv(CsvToPropertyReaderTest.java:16)
+
