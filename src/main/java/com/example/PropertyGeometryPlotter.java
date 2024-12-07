@@ -63,6 +63,37 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
     }
 
     /**
+     * Adds property geometry to a dataset.
+     *
+     * @param dataset  The dataset to add the geometry to.
+     * @param reader   The WKTReader instance.
+     * @param property The property whose geometry will be added.
+     */
+    private void addPropertyGeometryToDataset(XYSeriesCollection dataset, WKTReader reader, Property property) throws Exception {
+        Geometry geometry = reader.read(property.getGeometry());
+        XYSeries series = new XYSeries("Property " + property.getObjectId(), false, true);
+
+        // Plot MultiPolygon geometries
+        if (geometry.getGeometryType().equals("MultiPolygon")) {
+            for (int i = 0; i < geometry.getNumGeometries(); i++) {
+                Geometry polygon = geometry.getGeometryN(i);
+                Coordinate[] coordinates = polygon.getCoordinates();
+                for (Coordinate coordinate : coordinates) {
+                    series.add(coordinate.x, coordinate.y);
+                }
+            }
+        }
+        // Plot Polygon geometries
+        else if (geometry.getGeometryType().equals("Polygon")) {
+            Coordinate[] coordinates = geometry.getCoordinates();
+            for (Coordinate coordinate : coordinates) {
+                series.add(coordinate.x, coordinate.y);
+            }
+        }
+        dataset.addSeries(series);
+    }
+
+    /**
      * Plots properties filtered by ObjectIds on a chart.
      *
      * @param properties List of properties.
@@ -79,27 +110,7 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
             // Process each property and filter by the provided ObjectIds
             for (Property property : properties) {
                 if (property.getObjectId().equals(objectId1) || property.getObjectId().equals(objectId2)) {
-                    Geometry geometry = reader.read(property.getGeometry());
-                    XYSeries series = new XYSeries("Property " + property.getObjectId(), false, true);
-
-                    // Plot MultiPolygon geometries
-                    if (geometry.getGeometryType().equals("MultiPolygon")) {
-                        for (int i = 0; i < geometry.getNumGeometries(); i++) {
-                            Geometry polygon = geometry.getGeometryN(i);
-                            Coordinate[] coordinates = polygon.getCoordinates();
-                            for (Coordinate coordinate : coordinates) {
-                                series.add(coordinate.x, coordinate.y);
-                            }
-                        }
-                    }
-                    // Plot Polygon geometries
-                    else if (geometry.getGeometryType().equals("Polygon")) {
-                        Coordinate[] coordinates = geometry.getCoordinates();
-                        for (Coordinate coordinate : coordinates) {
-                            series.add(coordinate.x, coordinate.y);
-                        }
-                    }
-                    dataset.addSeries(series);
+                    addPropertyGeometryToDataset(dataset, reader, property);
                 }
             }
         } catch (Exception e) {
@@ -163,27 +174,7 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
         try {
             // Process all properties
             for (Property property : properties) {
-                Geometry geometry = reader.read(property.getGeometry());
-                XYSeries series = new XYSeries("Property " + property.getObjectId(), false, true);
-
-                // Plot MultiPolygon
-                if (geometry.getGeometryType().equals("MultiPolygon")) {
-                    for (int i = 0; i < geometry.getNumGeometries(); i++) {
-                        Geometry polygon = geometry.getGeometryN(i);
-                        Coordinate[] coordinates = polygon.getCoordinates();
-                        for (Coordinate coordinate : coordinates) {
-                            series.add(coordinate.x, coordinate.y);
-                        }
-                    }
-                }
-                // Plot Polygon
-                else if (geometry.getGeometryType().equals("Polygon")) {
-                    Coordinate[] coordinates = geometry.getCoordinates();
-                    for (Coordinate coordinate : coordinates) {
-                        series.add(coordinate.x, coordinate.y);
-                    }
-                }
-                dataset.addSeries(series);
+                addPropertyGeometryToDataset(dataset, reader, property);
             }
         } catch (Exception e) {
             System.err.println("Error reading geometry: " + e.getMessage());
