@@ -26,8 +26,8 @@ import com.example.utils.PropertyMergeUtils;
  */
 public class AreaButtonHandler implements ActionListener {
 
-    private JPanel panel;
-    private List<Property> properties;
+    private final JPanel panel;
+    private final List<Property> properties;
 
     /**
      * Constructor for AreaButtonHandler.
@@ -97,7 +97,7 @@ public class AreaButtonHandler implements ActionListener {
                 if (freguesiaInput != null) {
                     if (isMerged) {
                         List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesiaInput));
-                        showMergedAreaTable("freguesia", freguesiaInput, mergedProperties);
+                        showMergedAreaTable(freguesiaInput, mergedProperties);
                     } else {
                         showAreaTable("freguesia", freguesiaInput);
                     }
@@ -119,7 +119,7 @@ public class AreaButtonHandler implements ActionListener {
                 if (municipioInput != null) {
                     if (isMerged) {
                         List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByMunicipio(properties, municipioInput));
-                        showMergedAreaTable("municipio", municipioInput, mergedProperties);
+                        showMergedAreaTable(municipioInput, mergedProperties);
                     } else {
                         showAreaTable("municipio", municipioInput);
                     }
@@ -129,13 +129,14 @@ public class AreaButtonHandler implements ActionListener {
             case JOptionPane.CANCEL_OPTION: // Ilha
                 if (isMerged) {
                     List<Property> mergedProperties = PropertyMergeUtils.mergePropertiesByAdjacencyAndOwner(CsvToPropertyReader.filterPropertiesByIlha(properties, "Ilha da Madeira (Madeira)"));
-                    showMergedAreaTable("ilha", "Ilha da Madeira (Madeira)", mergedProperties);
+                    showMergedAreaTable("Ilha da Madeira (Madeira)", mergedProperties);
                 } else {
                     showAreaTable("ilha", "Ilha da Madeira (Madeira)");
                 }
                 break;
-            }
-     }
+        }
+    }
+
     // Helper Methods for Display Actions
 
     /**
@@ -165,19 +166,7 @@ public class AreaButtonHandler implements ActionListener {
                 })
                 .collect(Collectors.toList());
 
-        double totalArea = filteredProperties.stream()
-                .mapToDouble(p -> Double.parseDouble(p.getShapeArea()))
-                .sum();
-
-        double averageArea = 0.0;
-        try {
-            averageArea = PropertyGeometryUtils.calculateAverageArea(filteredProperties);
-        } catch (IllegalArgumentException e) {
-            JOptionPane.showMessageDialog(panel, "No valid property areas found for calculation.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-
-        tableModel.addRow(new Object[]{location, totalArea, averageArea});
+        calculateAndAddAreaRow(tableModel, location, filteredProperties);
 
         showResultsTable(tableModel, "Area Results");
     }
@@ -185,31 +174,41 @@ public class AreaButtonHandler implements ActionListener {
     /**
      * Displays a table with merged area details for the selected location.
      *
-     * @param areaType The type of area (freguesia, municipio, ilha).
      * @param location The location name.
      * @param mergedProperties List of merged properties.
      */
-    private void showMergedAreaTable(String areaType, String location, List<Property> mergedProperties) {
+    private void showMergedAreaTable(String location, List<Property> mergedProperties) {
         DefaultTableModel tableModel = new DefaultTableModel();
         tableModel.addColumn("Location");
         tableModel.addColumn("Total Area (m²)");
         tableModel.addColumn("Average Area (m²)");
 
-        double totalArea = mergedProperties.stream()
+        calculateAndAddAreaRow(tableModel, location, mergedProperties);
+
+        showResultsTable(tableModel, "Merged Area Results");
+    }
+
+    /**
+     * Calculates the total and average area for a list of properties and adds a row to the table model.
+     *
+     * @param tableModel The table model to add the row to.
+     * @param location The location name.
+     * @param properties The list of properties.
+     */
+    private void calculateAndAddAreaRow(DefaultTableModel tableModel, String location, List<Property> properties) {
+        double totalArea = properties.stream()
                 .mapToDouble(p -> Double.parseDouble(p.getShapeArea()))
                 .sum();
 
-        double averageArea = 0.0;
+        double averageArea;
         try {
-            averageArea = PropertyGeometryUtils.calculateAverageArea(mergedProperties);
+            averageArea = PropertyGeometryUtils.calculateAverageArea(properties);
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(panel, "No valid property areas found for calculation.", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
         tableModel.addRow(new Object[]{location, totalArea, averageArea});
-
-        showResultsTable(tableModel, "Merged Area Results");
     }
 
     /**
@@ -238,4 +237,4 @@ public class AreaButtonHandler implements ActionListener {
 
         JOptionPane.showMessageDialog(panel, scrollPane, title, JOptionPane.INFORMATION_MESSAGE);
     }
-    }
+}

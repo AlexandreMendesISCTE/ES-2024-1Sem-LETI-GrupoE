@@ -90,21 +90,22 @@ public class MadeiraMapGUI {
         // Adding action buttons to the panel
         String[] buttonLabels = {"Details", "Property Map", "Area", "Owner Graph", "Suggestion", "Extra", "Close"};
         for (int i = 0; i < buttonLabels.length; i++) {
-            addButton(panel, buttonLabels[i], startX, startY + (buttonHeight + spacing) * i, buttonWidth, buttonHeight);
+            JButton button = createButton(buttonLabels[i], startX, startY + (buttonHeight + spacing) * i, buttonWidth, buttonHeight);
+            panel.add(button);
         }
     }
 
     /**
-     * Adds a button to the given panel.
+     * Creates a new JButton with consistent styling.
      *
-     * @param panel  The panel to add the button to.
      * @param text   The text displayed on the button.
      * @param x      The x-coordinate of the button's position.
      * @param y      The y-coordinate of the button's position.
      * @param width  The width of the button.
      * @param height The height of the button.
+     * @return A styled JButton instance.
      */
-    private void addButton(JPanel panel, String text, int x, int y, int width, int height) {
+    private JButton createButton(String text, int x, int y, int width, int height) {
         JButton button = new JButton(text);
         button.setBounds(x, y, width, height);
         button.setFont(new Font("Arial", Font.BOLD, 16));
@@ -113,8 +114,8 @@ public class MadeiraMapGUI {
         button.setContentAreaFilled(true);
         button.setBorderPainted(false);
         button.setFocusable(false);
-        button.addActionListener(ButtonHandlerFactory.createHandler(text, panel, properties, frame));
-        panel.add(button);
+        button.addActionListener(ButtonHandlerFactory.createHandler(text, null, properties, frame));
+        return button;
     }
 
     /**

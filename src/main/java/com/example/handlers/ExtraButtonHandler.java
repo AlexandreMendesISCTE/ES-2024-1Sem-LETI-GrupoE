@@ -18,8 +18,8 @@ import com.example.PropertyGeometryPlotter;
  */
 public class ExtraButtonHandler implements ActionListener {
 
-    private JPanel panel;
-    private List<Property> properties;
+    private final JPanel panel;
+    private final List<Property> properties;
 
     /**
      * Constructor for ExtraButtonHandler.

@@ -34,6 +34,35 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
     }
 
     /**
+     * Configures and displays the chart.
+     *
+     * @param chart The JFreeChart to configure and display.
+     * @param title The title of the chart.
+     */
+    private void configureAndDisplayChart(JFreeChart chart, String title) {
+        XYPlot plot = chart.getXYPlot();
+        plot.setBackgroundPaint(Color.white);
+
+        // Configure the axes
+        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
+        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+        domainAxis.setAutoRangeIncludesZero(false);
+        rangeAxis.setAutoRangeIncludesZero(false);
+        domainAxis.setLowerMargin(0.05);
+        domainAxis.setUpperMargin(0.05);
+        rangeAxis.setLowerMargin(0.05);
+        rangeAxis.setUpperMargin(0.05);
+
+        // Add the chart to a panel
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setPreferredSize(new Dimension(1000, 800));
+        setContentPane(chartPanel);
+        pack();
+        UIUtils.centerFrameOnScreen(this);
+        setVisible(true);
+    }
+
+    /**
      * Plots properties filtered by ObjectIds on a chart.
      *
      * @param properties List of properties.
@@ -78,7 +107,6 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
             e.printStackTrace();
         }
 
-        // Create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "Property Geometries",
                 "X Coordinate",
@@ -90,24 +118,7 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
                 false
         );
 
-        // Configure the chart
-        XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.white);
-
-        // Configure the axes
-        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        domainAxis.setAutoRangeIncludesZero(false);
-        rangeAxis.setAutoRangeIncludesZero(false);
-        domainAxis.setLowerMargin(0.05);
-        domainAxis.setUpperMargin(0.05);
-        rangeAxis.setLowerMargin(0.05);
-        rangeAxis.setUpperMargin(0.05);
-
-        // Add the chart to a panel
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(1000, 800));
-        setContentPane(chartPanel);
+        configureAndDisplayChart(chart, "Property Geometries");
     }
 
     /**
@@ -123,9 +134,6 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
         String objId1 = String.valueOf(objectId1);
         String objId2 = String.valueOf(objectId2);
         plotProperties(filteredProperties, objId1, objId2);
-        pack();
-        UIUtils.centerFrameOnScreen(this);
-        setVisible(true);
     }
 
     /**
@@ -139,9 +147,6 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
         List<Property> filteredProperties = CsvToPropertyReader.filterPropertiesByFreguesia(properties, freguesia);
         String objId = String.valueOf(objectId);
         plotProperties(filteredProperties, objId, objId);
-        pack();
-        UIUtils.centerFrameOnScreen(this);
-        setVisible(true);
     }
 
     /**
@@ -185,7 +190,6 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
             e.printStackTrace();
         }
 
-        // Create the chart
         JFreeChart chart = ChartFactory.createXYLineChart(
                 "All Property Geometries",
                 "X Coordinate",
@@ -197,27 +201,7 @@ public class PropertyGeometryPlotter extends ApplicationFrame {
                 false
         );
 
-        // Configure the chart
-        XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.white);
-
-        // Configure the axes
-        NumberAxis domainAxis = (NumberAxis) plot.getDomainAxis();
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        domainAxis.setAutoRangeIncludesZero(false);
-        rangeAxis.setAutoRangeIncludesZero(false);
-        domainAxis.setLowerMargin(0.05);
-        domainAxis.setUpperMargin(0.05);
-        rangeAxis.setLowerMargin(0.05);
-        rangeAxis.setUpperMargin(0.05);
-
-        // Add the chart to a panel
-        ChartPanel chartPanel = new ChartPanel(chart);
-        chartPanel.setPreferredSize(new Dimension(1000, 800));
-        setContentPane(chartPanel);
-        pack();
-        UIUtils.centerFrameOnScreen(this);
-        setVisible(true);
+        configureAndDisplayChart(chart, "All Property Geometries");
     }
 
     /**

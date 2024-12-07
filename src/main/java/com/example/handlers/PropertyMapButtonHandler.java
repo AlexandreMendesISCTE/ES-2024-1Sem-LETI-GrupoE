@@ -2,15 +2,18 @@ package com.example.handlers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.*;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 import com.example.Property;
 import com.example.PropertyGraph;
 
 public class PropertyMapButtonHandler implements ActionListener {
 
-    private JPanel panel;
-    private List<Property> properties;
+    private final JPanel panel;
+    private final List<Property> properties;
 
     public PropertyMapButtonHandler(JPanel panel, List<Property> properties) {
         this.panel = panel;

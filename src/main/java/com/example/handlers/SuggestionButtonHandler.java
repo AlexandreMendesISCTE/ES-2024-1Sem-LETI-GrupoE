@@ -23,8 +23,8 @@ import com.example.PropertySwapSuggestion;
  */
 public class SuggestionButtonHandler implements ActionListener {
 
-    private JPanel panel;
-    private List<Property> properties;
+    private final JPanel panel;
+    private final List<Property> properties;
 
     /**
      * Constructor for SuggestionButtonHandler.

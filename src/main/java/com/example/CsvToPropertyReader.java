@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
@@ -30,9 +32,9 @@ public class CsvToPropertyReader {
     private static File selectedCsvFile;
 
     // Expected column headers in the CSV file
-    private static final Set<String> REQUIRED_COLUMNS = Set.of(
+    private static final Set<String> REQUIRED_COLUMNS = new HashSet<>(Arrays.asList(
             "OBJECTID", "PAR_ID", "PAR_NUM", "Shape_Length", "Shape_Area", "geometry", "OWNER", "Freguesia", "Municipio", "Ilha"
-    );
+    ));
 
     /**
      * Allows the user to select a CSV file through a file chooser dialog.
