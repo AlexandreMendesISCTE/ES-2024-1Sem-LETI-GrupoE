@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.swing.JFileChooser;
@@ -21,6 +23,8 @@ import org.apache.commons.csv.CSVRecord;
  * to parse the CSV file and create Property instances from each record.
  */
 public class CsvToPropertyReader {
+
+    private static final Logger LOGGER = Logger.getLogger(CsvToPropertyReader.class.getName());
 
     // Variable to store the selected CSV file path
     private static File selectedCsvFile;
@@ -61,7 +65,14 @@ public class CsvToPropertyReader {
         List<Property> properties = new ArrayList<>();
 
         try (FileReader reader = new FileReader(selectedCsvFile);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim().withDelimiter(';'))) {
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
+                     .builder()
+                     .setHeader()
+                     .setSkipHeaderRecord(true)
+                     .setIgnoreHeaderCase(true)
+                     .setTrim(true)
+                     .setDelimiter(';')
+                     .build())) {
 
             // Validate CSV headers
             Set<String> csvHeaders = csvParser.getHeaderMap().keySet();
@@ -93,8 +104,8 @@ public class CsvToPropertyReader {
 
         } catch (IOException e) {
             // Handle exceptions that occur during file reading
+            LOGGER.log(Level.SEVERE, "Error reading CSV file", e);
             JOptionPane.showMessageDialog(null, "Error reading CSV file: " + e.getMessage(), "File Reading Error", JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
         }
 
         return properties; // Return the list of properties
@@ -111,12 +122,9 @@ public class CsvToPropertyReader {
 
         // Print the properties to verify the results
         if (properties.isEmpty()) {
-            System.out.println("No properties found in the CSV file.");
+            LOGGER.info("No properties found in the CSV file.");
         } else {
-            for (Property property : properties) {
-                // Uncomment the following line to print each property
-                // System.out.println(property);
-            }
+            //properties.forEach(property -> LOGGER.info(property.toString()));
         }
         return properties; // Return the list of properties
     }
@@ -179,8 +187,5 @@ public class CsvToPropertyReader {
      */
     public static void main(String[] args) {
         Exercise_1(); // Call the Exercise_1 method to read properties from the selected CSV file
-        //filterPropertiesByFreguesia(Exercise_1(), "Arco da Calheta"); // Filter properties by "Freguesia"
-        //filterPropertiesByMunicipio(Exercise_1(), "Calheta"); // Filter properties by "Municipio"
-        //filterPropertiesByIlha(Exercise_1(), "Ilha da Madeira (Madeira)"); // Filter properties by "Ilha"
     }
 }
